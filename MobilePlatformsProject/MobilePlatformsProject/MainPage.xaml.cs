@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MobilePlatformsProject.Models;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -27,9 +28,22 @@ namespace MobilePlatformsProject
     {
 
         private CancellationTokenSource _tokenSource = new CancellationTokenSource();
-        public ObservableCollection<string> DownloadedFilesNames => new ObservableCollection<string>();
+        public ObservableCollection<string> DownloadedFilesNames { get; }
+        public ObservableCollection<Currency> Currencies { get; }
         public MainPage()
         {
+            DownloadedFilesNames = new ObservableCollection<string>(
+                Directory.GetFiles(Directory.GetCurrentDirectory(), "*.json", SearchOption.TopDirectoryOnly)
+                .Select(f => f.Substring(f.LastIndexOf(@"\")))
+                .Select(f => f.Replace(@"\", ""))
+                );
+
+            Currencies = new ObservableCollection<Currency>();
+            Currencies.Add(new Currency() { Name = "Dolar amerykański", Code = "USD", ExchangeRate = 3.7241 });
+            Currencies.Add(new Currency() { Name = "Dolar kanadyjski", Code = "CAD", ExchangeRate = 2.7703 });
+            Currencies.Add(new Currency() { Name = "euro", Code = "EUR", ExchangeRate = 4.1943 });
+            Currencies.Add(new Currency() { Name = "forint ", Code = "HUF", ExchangeRate = 0.013593 });
+
             this.InitializeComponent();
         }
     }

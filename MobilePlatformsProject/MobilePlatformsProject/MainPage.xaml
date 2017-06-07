@@ -16,12 +16,36 @@
             Grid.Row="0"
             Grid.Column="0"
             Margin="0"
-            Background="Aqua" />
+            Background="WhiteSmoke"
+            ItemsSource="{x:Bind DownloadedFilesNames}" />
         <GridView
             Grid.Row="0"
             Grid.Column="1"
-            Margin="0"
-            Background="BlanchedAlmond" />
+            Margin="30"
+            IsItemClickEnabled="True"
+            IsSwipeEnabled="true"
+            ItemsSource="{x:Bind Currencies}"
+            SelectionMode="Single">
+            <GridView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapGrid Orientation="Vertical" />
+                </ItemsPanelTemplate>
+            </GridView.ItemsPanel>
+            <GridView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="100" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="{Binding Name}" />
+                        <TextBlock Grid.Column="1" Text="{Binding Code}" />
+                        <TextBlock Grid.Column="2" Text="{Binding ExchangeRate}" />
+                    </Grid>
+                </DataTemplate>
+            </GridView.ItemTemplate>
+        </GridView>
     </Grid>
 
 </Page>
