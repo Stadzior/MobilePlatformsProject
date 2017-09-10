@@ -10,49 +10,72 @@
     DataContext="{Binding MainPageViewModel, Source={StaticResource ResourceKey=Locator}}"
     mc:Ignorable="d">
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="3*" />
-        </Grid.ColumnDefinitions>
-        <ListView
-            Grid.Row="0"
-            Grid.Column="0"
-            Margin="0"
-            Background="WhiteSmoke"
-            ItemsSource="{Binding DownloadedFilesNames}" />
-        <GridView
-            x:Name="GridCurrencies"
-            Grid.Row="0"
-            Grid.Column="1"
-            Margin="30"
-            IsItemClickEnabled="True"
-            IsSwipeEnabled="true"
-            ItemsSource="{Binding Currencies}"
-            SelectionMode="Single">
-            <GridView.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapGrid Orientation="Vertical" />
-                </ItemsPanelTemplate>
-            </GridView.ItemsPanel>
-            <GridView.ItemTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="150" />
-                            <ColumnDefinition Width="100" />
-                            <ColumnDefinition Width="100" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Text="{Binding Name}" />
-                        <TextBlock Grid.Column="1" Text="{Binding Code}" />
-                        <TextBlock Grid.Column="2" Text="{Binding ExchangeRate}" />
-                    </Grid>
-                </DataTemplate>
-            </GridView.ItemTemplate>
-            <i:Interaction.Behaviors>
-                <core:EventTriggerBehavior EventName="ItemClick">
-                    <core:InvokeCommandAction Command="{Binding NavigateToCurrencyHistoryCommand}" />
-                </core:EventTriggerBehavior>
-            </i:Interaction.Behaviors>
-        </GridView>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="10*" />
+        </Grid.RowDefinitions>
+        <CommandBar Grid.Row="0" Grid.Column="0">
+            <AppBarButton Icon="Back" Label="Back">
+                <i:Interaction.Behaviors>
+                    <core:EventTriggerBehavior EventName="Click">
+                        <core:InvokeCommandAction Command="{Binding BackCommand}" />
+                    </core:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
+            </AppBarButton>
+        </CommandBar>
+        <Grid Grid.Row="1" Grid.Column="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="3*" />
+            </Grid.ColumnDefinitions>
+            <ListView
+                Grid.Row="0"
+                Grid.Column="0"
+                Margin="0"
+                Background="WhiteSmoke"
+                IsItemClickEnabled="True"
+                ItemsSource="{Binding DownloadedFilesNames}"
+                SelectedItem="{Binding SelectedFileName}">
+                <i:Interaction.Behaviors>
+                    <core:EventTriggerBehavior EventName="ItemClick">
+                        <core:InvokeCommandAction Command="{Binding LoadDataFromFileCommand}" />
+                    </core:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
+            </ListView>
+            <GridView
+                x:Name="GridCurrencies"
+                Grid.Row="0"
+                Grid.Column="1"
+                Margin="30"
+                IsItemClickEnabled="True"
+                IsSwipeEnabled="true"
+                ItemsSource="{Binding Currencies}"
+                SelectionMode="Single">
+                <GridView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapGrid Orientation="Vertical" />
+                    </ItemsPanelTemplate>
+                </GridView.ItemsPanel>
+                <GridView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="150" />
+                                <ColumnDefinition Width="100" />
+                                <ColumnDefinition Width="100" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="{Binding Name}" />
+                            <TextBlock Grid.Column="1" Text="{Binding Code}" />
+                            <TextBlock Grid.Column="2" Text="{Binding ExchangeRate}" />
+                        </Grid>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+                <i:Interaction.Behaviors>
+                    <core:EventTriggerBehavior EventName="ItemClick">
+                        <core:InvokeCommandAction Command="{Binding NavigateToCurrencyHistoryCommand}" />
+                    </core:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
+            </GridView>
+        </Grid>
     </Grid>
 </Page>

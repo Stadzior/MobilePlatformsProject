@@ -14,7 +14,7 @@
             <AppBarButton Icon="Back" Label="Back">
                 <i:Interaction.Behaviors>
                     <core:EventTriggerBehavior EventName="Click">
-                        <core:InvokeCommandAction Command="{Binding NavigateToMainPageCommand}" />
+                        <core:InvokeCommandAction Command="{Binding BackCommand}" />
                     </core:EventTriggerBehavior>
                 </i:Interaction.Behaviors>
             </AppBarButton>

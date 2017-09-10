@@ -16,7 +16,7 @@ namespace MobilePlatformsProject.ViewModels
     public class CurrencyHistoryViewModel : ViewModelBase, IRegisterCommands
     {
 
-        public ICommand NavigateToMainPageCommand { get; set; }
+        public ICommand BackCommand { get; set; }
         public CurrencyHistoryViewModel()
         {
             RegisterCommands();
@@ -24,7 +24,7 @@ namespace MobilePlatformsProject.ViewModels
 
         public void RegisterCommands()
         {
-            NavigateToMainPageCommand = new RelayCommand(() =>
+            BackCommand = new RelayCommand(() =>
             {
                 Frame rootFrame = Window.Current.Content as Frame;
                 if (rootFrame == null)

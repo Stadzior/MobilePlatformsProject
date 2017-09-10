@@ -12,6 +12,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 namespace MobilePlatformsProject.ViewModels
 {
@@ -21,8 +23,20 @@ namespace MobilePlatformsProject.ViewModels
         private readonly INavigationService _navigationService;
 
         public ObservableCollection<string> DownloadedFilesNames { get; set; }
+        private string _selectedFileName;
+        public string SelectedFileName
+        {
+            get => _selectedFileName;
+            set
+            {
+                _selectedFileName = value;
+                Set(() => SelectedFileName, ref _selectedFileName, value);
+            }
+        }
         public ObservableCollection<Currency> Currencies { get; set; }
         public ICommand NavigateToCurrencyHistoryCommand { get; set; }
+        public ICommand BackCommand { get; set; }
+        public ICommand LoadDataFromFileCommand { get; set; }
 
         public MainPageViewModel(INavigationService navigationService)
         {
@@ -46,6 +60,21 @@ namespace MobilePlatformsProject.ViewModels
         public void RegisterCommands()
         {
             NavigateToCurrencyHistoryCommand = new RelayCommand(() => _navigationService.NavigateTo("CurrencyHistory"));
+            LoadDataFromFileCommand = new RelayCommand(() =>
+            {
+                var i = SelectedFileName;
+            });
+            BackCommand = new RelayCommand(() =>
+            {
+                Frame rootFrame = Window.Current.Content as Frame;
+                if (rootFrame == null)
+                    return;
+
+                if (rootFrame.CanGoBack)
+                {
+                    rootFrame.GoBack();
+                }
+            });
         }
     }
 }
