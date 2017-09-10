@@ -13,8 +13,14 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="10*" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <CommandBar Grid.Row="0" Grid.Column="0">
+        <CommandBar
+            Grid.Row="0"
+            Grid.Column="0"
+            IsOpen="True"
+            IsSticky="True"
+            OverflowButtonVisibility="Collapsed">
             <AppBarButton Icon="Back" Label="Back">
                 <i:Interaction.Behaviors>
                     <core:EventTriggerBehavior EventName="Click">
@@ -22,6 +28,9 @@
                     </core:EventTriggerBehavior>
                 </i:Interaction.Behaviors>
             </AppBarButton>
+            <AppBarButton Icon="Refresh" Label="Refresh" />
+            <AppBarButton Icon="Save" Label="Save as" />
+            <AppBarButton Icon="OpenFile" Label="Open" />
         </CommandBar>
         <Grid Grid.Row="1" Grid.Column="0">
             <Grid.ColumnDefinitions>
@@ -77,5 +86,12 @@
                 </i:Interaction.Behaviors>
             </GridView>
         </Grid>
+        <TextBlock
+            Grid.Row="2"
+            Grid.Column="0"
+            FontSize="30">
+            <Run Text="Source:" />
+            <Run Text="{Binding SelectedFileName}" />
+        </TextBlock>
     </Grid>
 </Page>

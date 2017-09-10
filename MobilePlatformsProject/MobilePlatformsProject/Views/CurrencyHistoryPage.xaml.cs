@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MobilePlatformsProject.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -25,6 +26,15 @@ namespace MobilePlatformsProject.Views
         public CurrencyHistoryPage()
         {
             this.InitializeComponent();
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            var navigableViewModel = DataContext as INavigatableViewModel;
+            if (navigableViewModel != null)
+                navigableViewModel.OnNavigateTo(e.Parameter);
         }
     }
 }

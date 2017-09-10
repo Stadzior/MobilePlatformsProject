@@ -7,10 +7,14 @@
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:local="using:MobilePlatformsProject.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
     DataContext="{Binding CurrencyHistoryViewModel, Source={StaticResource ResourceKey=Locator}}"
     mc:Ignorable="d">
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <CommandBar>
+        <CommandBar
+            IsOpen="True"
+            IsSticky="True"
+            OverflowButtonVisibility="Collapsed">
             <AppBarButton Icon="Back" Label="Back">
                 <i:Interaction.Behaviors>
                     <core:EventTriggerBehavior EventName="Click">
@@ -18,6 +22,28 @@
                     </core:EventTriggerBehavior>
                 </i:Interaction.Behaviors>
             </AppBarButton>
+            <AppBarButton Icon="Refresh" Label="Refresh" />
+            <CommandBar.Content>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <CalendarDatePicker
+                        x:Name="dateFromPicker"
+                        Grid.Column="0"
+                        Margin="0,0,15,0"
+                        Header="Start date:"
+                        MaxDate="{Binding Date, ElementName=dateToPicker}"
+                        MinDate="2002-02-02" />
+                    <CalendarDatePicker
+                        x:Name="dateToPicker"
+                        Grid.Column="1"
+                        Header="End date:"
+                        MaxDate="{Binding CurrentDateTime}"
+                        MinDate="{Binding Date, ElementName=dateFromPicker}" />
+                </Grid>
+            </CommandBar.Content>
         </CommandBar>
     </Grid>
 </Page>

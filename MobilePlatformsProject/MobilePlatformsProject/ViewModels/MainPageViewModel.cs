@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight.Views;
 using MobilePlatformsProject.Interfaces;
 using MobilePlatformsProject.Models;
@@ -42,6 +43,7 @@ namespace MobilePlatformsProject.ViewModels
 
         public MainPageViewModel(INavigationService navigationService)
         {
+            SelectedFileName = "None";
             _navigationService = navigationService;
             DownloadedFilesNames = new ObservableCollection<string>(
             Directory.GetFiles(Directory.GetCurrentDirectory(), "*.json", SearchOption.TopDirectoryOnly)

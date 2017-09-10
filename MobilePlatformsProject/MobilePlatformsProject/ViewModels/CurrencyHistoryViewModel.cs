@@ -2,6 +2,7 @@
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Views;
 using MobilePlatformsProject.Interfaces;
+using MobilePlatformsProject.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,9 +15,22 @@ using Windows.UI.Xaml.Controls;
 
 namespace MobilePlatformsProject.ViewModels
 {
-    public class CurrencyHistoryViewModel : ViewModelBase, IRegisterCommands
+    public class CurrencyHistoryViewModel : ViewModelBase, IRegisterCommands, INavigatableViewModel
     {
         private INavigationService _navigationService;
+
+        public DateTime CurrentDateTime => DateTime.Now;
+
+        private Currency _currency;
+        public Currency Currency
+        {
+            get => _currency;
+            set
+            {
+                _currency = value;
+                Set(() => Currency, ref _currency, value);
+            }
+        }
 
         public ICommand BackCommand { get; set; }
         public CurrencyHistoryViewModel(INavigationService navigationService)
@@ -32,5 +46,8 @@ namespace MobilePlatformsProject.ViewModels
                 _navigationService.GoBack();
             });
         }
+
+        public void OnNavigateTo(object parameter = null) 
+            => Currency = (Currency)parameter;
     }
 }
