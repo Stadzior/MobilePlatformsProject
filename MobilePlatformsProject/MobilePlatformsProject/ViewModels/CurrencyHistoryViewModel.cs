@@ -19,7 +19,8 @@ namespace MobilePlatformsProject.ViewModels
     {
         private INavigationService _navigationService;
 
-        public DateTime CurrentDateTime => DateTime.Now;
+        public DateTimeOffset MaxDateTimeOffset => DateTimeOffset.Now;
+        public DateTimeOffset MinDateTimeOffset => DateTimeOffset.Parse("2002-02-02");
 
         private Currency _currency;
         public Currency Currency

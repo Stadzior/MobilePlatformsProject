@@ -35,12 +35,12 @@
                         Margin="0,0,15,0"
                         Header="Start date:"
                         MaxDate="{Binding Date, ElementName=dateToPicker}"
-                        MinDate="2002-02-02" />
+                        MinDate="{Binding MinDateTimeOffset}" />
                     <CalendarDatePicker
                         x:Name="dateToPicker"
                         Grid.Column="1"
                         Header="End date:"
-                        MaxDate="{Binding CurrentDateTime}"
+                        MaxDate="{Binding MaxDateTimeOffset}"
                         MinDate="{Binding Date, ElementName=dateFromPicker}" />
                 </Grid>
             </CommandBar.Content>
