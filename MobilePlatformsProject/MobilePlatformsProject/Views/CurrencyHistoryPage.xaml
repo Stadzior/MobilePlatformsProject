@@ -22,7 +22,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="10*" />
+            <RowDefinition Height="8*" />
         </Grid.RowDefinitions>
         <CommandBar
             Grid.Row="0"

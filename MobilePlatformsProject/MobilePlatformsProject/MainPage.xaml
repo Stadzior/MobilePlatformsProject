@@ -30,6 +30,13 @@
             </AppBarButton>
             <AppBarButton Icon="Refresh" Label="Refresh" />
             <AppBarButton Icon="Save" Label="Save as" />
+            <AppBarButton Icon="Forward" Label="Zobacz historię">
+                <i:Interaction.Behaviors>
+                    <core:EventTriggerBehavior EventName="Click">
+                        <core:InvokeCommandAction Command="{Binding NavigateToCurrencyHistoryCommand}" />
+                    </core:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
+            </AppBarButton>
         </CommandBar>
         <TextBlock
             Grid.Row="1"
@@ -48,13 +55,7 @@
                 Background="WhiteSmoke"
                 IsItemClickEnabled="True"
                 ItemsSource="{Binding DownloadedFilesNames}"
-                SelectedItem="{Binding SelectedFileName}">
-                <i:Interaction.Behaviors>
-                    <core:EventTriggerBehavior EventName="ItemClick">
-                        <core:InvokeCommandAction Command="{Binding LoadDataFromFileCommand}" />
-                    </core:EventTriggerBehavior>
-                </i:Interaction.Behaviors>
-            </ListView>
+                SelectedItem="{Binding SelectedFileName}" />
             <GridView
                 x:Name="GridCurrencies"
                 Grid.Row="0"
@@ -63,7 +64,8 @@
                 IsItemClickEnabled="True"
                 IsSwipeEnabled="true"
                 ItemsSource="{Binding Currencies}"
-                SelectionMode="Single">
+                SelectedItems="{Binding SelectedCurrencies}"
+                SelectionMode="Multiple">
                 <GridView.ItemsPanel>
                     <ItemsPanelTemplate>
                         <WrapGrid Orientation="Vertical" />

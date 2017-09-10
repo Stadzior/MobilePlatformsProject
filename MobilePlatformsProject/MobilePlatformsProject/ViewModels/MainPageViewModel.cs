@@ -25,7 +25,8 @@ namespace MobilePlatformsProject.ViewModels
         
         public ObservableCollection<string> DownloadedFilesNames { get; set; }
         public ObservableCollection<Currency> Currencies { get; set; }
-
+        public ObservableCollection<Currency> SelectedCurrencies { get; set; }
+        //TODO Binding to SelectedItems && Windows.Storage && REST
         private string _selectedFileName;
         public string SelectedFileName
         {
@@ -62,7 +63,7 @@ namespace MobilePlatformsProject.ViewModels
 
         public void RegisterCommands()
         {
-            NavigateToCurrencyHistoryCommand = new RelayCommand<ItemClickEventArgs>(e => _navigationService.NavigateTo("CurrencyHistory", e.ClickedItem));
+            NavigateToCurrencyHistoryCommand = new RelayCommand(() => _navigationService.NavigateTo("CurrencyHistory", SelectedCurrencies));
             LoadDataFromFileCommand = new RelayCommand(() =>
             {
                 var i = SelectedFileName;
