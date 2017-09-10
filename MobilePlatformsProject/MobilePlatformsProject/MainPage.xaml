@@ -30,7 +30,6 @@
             </AppBarButton>
             <AppBarButton Icon="Refresh" Label="Refresh" />
             <AppBarButton Icon="Save" Label="Save as" />
-            <AppBarButton Icon="OpenFile" Label="Open" />
         </CommandBar>
         <Grid Grid.Row="1" Grid.Column="0">
             <Grid.ColumnDefinitions>
@@ -91,7 +90,7 @@
             Grid.Column="0"
             FontSize="30">
             <Run Text="Source:" />
-            <Run Text="{Binding SelectedFileName}" />
+            <Run Text="{Binding SourceDescription}" />
         </TextBlock>
     </Grid>
 </Page>

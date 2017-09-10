@@ -7,11 +7,17 @@
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:local="using:MobilePlatformsProject.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:syncfusion="using:Syncfusion.UI.Xaml.Charts"
     DataContext="{Binding CurrencyHistoryViewModel, Source={StaticResource ResourceKey=Locator}}"
     mc:Ignorable="d">
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="8*" />
+        </Grid.RowDefinitions>
         <CommandBar
+            Grid.Row="0"
+            Grid.Column="0"
             IsOpen="True"
             IsSticky="True"
             OverflowButtonVisibility="Collapsed">
@@ -45,5 +51,6 @@
                 </Grid>
             </CommandBar.Content>
         </CommandBar>
+        <syncfusion:SfChart Grid.Row="1" Grid.Column="0" Margin="15,15,15,15" />
     </Grid>
 </Page>

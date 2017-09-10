@@ -37,13 +37,24 @@ namespace MobilePlatformsProject.ViewModels
             }
         }
 
+        private string _sourceDescription;
+        public string SourceDescription
+        {
+            get => _sourceDescription;
+            set
+            {
+                _sourceDescription = value;
+                Set(() => SourceDescription, ref _sourceDescription, value);
+            }
+        }
+
         public ICommand NavigateToCurrencyHistoryCommand { get; set; }
         public ICommand BackCommand { get; set; }
         public ICommand LoadDataFromFileCommand { get; set; }
 
         public MainPageViewModel(INavigationService navigationService)
         {
-            SelectedFileName = "None";
+            SourceDescription = "None";
             _navigationService = navigationService;
             DownloadedFilesNames = new ObservableCollection<string>(
             Directory.GetFiles(Directory.GetCurrentDirectory(), "*.json", SearchOption.TopDirectoryOnly)
