@@ -15,6 +15,30 @@ namespace MobilePlatformsProject.ViewModels
     {
         private INavigationService _navigationService;
 
+        private DateTime _dateFrom;
+        public DateTime DateFrom
+        {
+            get => _dateFrom;
+            set
+            {
+                _dateFrom = value;
+                Set(() => DateFrom, ref _dateFrom, value);
+                Windows.Storage.ApplicationData.Current.LocalSettings.Values["CurrencyHistoryDateFrom"] = DateFrom;
+            }
+        }
+
+        private DateTime _dateTo;
+        public DateTime DateTo
+        {
+            get => _dateTo;
+            set
+            {
+                _dateTo = value;
+                Set(() => DateTo, ref _dateTo, value);
+                Windows.Storage.ApplicationData.Current.LocalSettings.Values["CurrencyHistoryDateTo"] = DateTo;
+            }
+        }
+
         public DateTimeOffset MaxDateTimeOffset => DateTimeOffset.Now;
         public DateTimeOffset MinDateTimeOffset => DateTimeOffset.Parse("2002-02-02");
 
@@ -29,6 +53,9 @@ namespace MobilePlatformsProject.ViewModels
         public CurrencyHistoryViewModel(INavigationService navigationService)
         {
             _navigationService = navigationService;
+            DateFrom = DateTime.Now.AddDays(-10);
+            DateTo = DateTime.Now;
+
             RegisterCommands();
         }
 
@@ -50,7 +77,8 @@ namespace MobilePlatformsProject.ViewModels
         public void OnNavigateTo(object parameter = null)
         {
             SelectedCurrencies = new ObservableCollection<Currency>((IEnumerable<Currency>)parameter);
-            Windows.Storage.ApplicationData.Current.LocalSettings.Values["lastPage"] = "CurrencyHistory";
+            Windows.Storage.ApplicationData.Current.LocalSettings.Values["lastOpenedPage"] = "CurrencyHistory";
+            //Windows.Storage.ApplicationData.Current.LocalSettings.Values["SelectedCurrencies"] = SelectedCurrencies;
         }
     }
 }

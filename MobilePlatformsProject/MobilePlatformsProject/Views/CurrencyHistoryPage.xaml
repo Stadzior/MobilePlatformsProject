@@ -54,12 +54,14 @@
                         x:Name="dateFromPicker"
                         Grid.Column="0"
                         Margin="0,0,15,0"
+                        Date="{Binding DateFrom}"
                         Header="Data początkowa:"
                         MaxDate="{Binding Date, ElementName=dateToPicker}"
                         MinDate="{Binding MinDateTimeOffset}" />
                     <CalendarDatePicker
                         x:Name="dateToPicker"
                         Grid.Column="1"
+                        Date="{Binding DateTo}"
                         Header="Data końcowa:"
                         MaxDate="{Binding MaxDateTimeOffset}"
                         MinDate="{Binding Date, ElementName=dateFromPicker}" />

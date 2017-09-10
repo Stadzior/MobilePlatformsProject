@@ -37,65 +37,68 @@
                 </i:Interaction.Behaviors>
             </AppBarButton>
         </CommandBar>
-        <Grid Grid.Row="1" Grid.Column="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="5*" />
-            </Grid.ColumnDefinitions>
-            <ListView
-                Grid.Row="0"
-                Grid.Column="0"
-                Margin="0"
-                Background="WhiteSmoke"
-                IsItemClickEnabled="True"
-                ItemsSource="{Binding DownloadedFilesNames}"
-                SelectedItem="{Binding SelectedFileName}" />
-            <Grid Grid.Row="0" Grid.Column="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="10*" />
-                </Grid.RowDefinitions>
-                <TextBlock
-                    Grid.Row="0"
-                    Grid.Column="0"
-                    FontSize="30"
-                    Text="Średnie kursy walut:" />
-                <GridView
-                    x:Name="GridCurrencies"
-                    Grid.Row="0"
-                    Grid.Column="1"
-                    Margin="30"
+        <SplitView
+            x:Name="SplitViewCurrencies"
+            Grid.Row="1"
+            Grid.Column="0"
+            DisplayMode="CompactInline"
+            PanePlacement="Left">
+            <SplitView.Content>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="10*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        FontSize="30"
+                        Text="Średnie kursy walut:" />
+                    <GridView
+                        x:Name="GridCurrencies"
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Margin="30"
+                        IsItemClickEnabled="True"
+                        IsSwipeEnabled="true"
+                        ItemsSource="{Binding Currencies}"
+                        SelectionMode="Multiple">
+                        <GridView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapGrid Orientation="Vertical" />
+                            </ItemsPanelTemplate>
+                        </GridView.ItemsPanel>
+                        <GridView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="150" />
+                                        <ColumnDefinition Width="100" />
+                                        <ColumnDefinition Width="100" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="{Binding Name}" />
+                                    <TextBlock Grid.Column="1" Text="{Binding Code}" />
+                                    <TextBlock Grid.Column="2" Text="{Binding ExchangeRate}" />
+                                </Grid>
+                            </DataTemplate>
+                        </GridView.ItemTemplate>
+                        <i:Interaction.Behaviors>
+                            <core:EventTriggerBehavior EventName="SelectionChanged">
+                                <core:InvokeCommandAction Command="{Binding SelectedCurrenciesChangedCommand}" />
+                            </core:EventTriggerBehavior>
+                        </i:Interaction.Behaviors>
+                    </GridView>
+                </Grid>
+            </SplitView.Content>
+            <SplitView.Pane>
+                <ListView
+                    Margin="0"
+                    Background="WhiteSmoke"
                     IsItemClickEnabled="True"
-                    IsSwipeEnabled="true"
-                    ItemsSource="{Binding Currencies}"
-                    SelectionMode="Multiple">
-                    <GridView.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <WrapGrid Orientation="Vertical" />
-                        </ItemsPanelTemplate>
-                    </GridView.ItemsPanel>
-                    <GridView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="150" />
-                                    <ColumnDefinition Width="100" />
-                                    <ColumnDefinition Width="100" />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Grid.Column="0" Text="{Binding Name}" />
-                                <TextBlock Grid.Column="1" Text="{Binding Code}" />
-                                <TextBlock Grid.Column="2" Text="{Binding ExchangeRate}" />
-                            </Grid>
-                        </DataTemplate>
-                    </GridView.ItemTemplate>
-                    <i:Interaction.Behaviors>
-                        <core:EventTriggerBehavior EventName="SelectionChanged">
-                            <core:InvokeCommandAction Command="{Binding SelectedCurrenciesChangedCommand}" />
-                        </core:EventTriggerBehavior>
-                    </i:Interaction.Behaviors>
-                </GridView>
-
-            </Grid>
-        </Grid>
+                    ItemsSource="{Binding DownloadedFilesNames}"
+                    SelectedItem="{Binding SelectedFileName}"
+                    Tapped="ListView_Tapped" />
+            </SplitView.Pane>
+        </SplitView>
     </Grid>
 </Page>

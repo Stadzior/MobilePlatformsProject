@@ -39,5 +39,10 @@ namespace MobilePlatformsProject
             if (DataContext is INavigatableViewModel navigatableViewModel)
                 navigatableViewModel.OnNavigateTo(e.Parameter);
         }
+
+        private void ListView_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            SplitViewCurrencies.IsPaneOpen = !SplitViewCurrencies.IsPaneOpen;
+        }
     }
 }

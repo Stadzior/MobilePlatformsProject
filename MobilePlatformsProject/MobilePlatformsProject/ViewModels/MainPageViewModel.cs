@@ -26,7 +26,7 @@ namespace MobilePlatformsProject.ViewModels
         public ObservableCollection<string> DownloadedFilesNames { get; set; }
         public ObservableCollection<Currency> Currencies { get; set; }
         public ObservableCollection<Currency> SelectedCurrencies { get; set; }
-        //TODO && REST
+        //TODO Windows.Storage && REST
         private string _selectedFileName;
         public string SelectedFileName
         {
@@ -42,6 +42,7 @@ namespace MobilePlatformsProject.ViewModels
         public ICommand BackCommand { get; set; }
         public ICommand LoadDataFromFileCommand { get; set; }
         public ICommand SelectedCurrenciesChangedCommand { get; set; }
+        public ICommand OpenPaneCommand { get; set; }
 
         public MainPageViewModel(INavigationService navigationService)
         {
@@ -59,6 +60,7 @@ namespace MobilePlatformsProject.ViewModels
                 new Currency() { Name = "euro", Code = "EUR", ExchangeRate = 4.1943 },
                 new Currency() { Name = "forint ", Code = "HUF", ExchangeRate = 0.013593 }
             };
+
             RegisterCommands();
         }
 
@@ -68,6 +70,7 @@ namespace MobilePlatformsProject.ViewModels
             LoadDataFromFileCommand = new RelayCommand(() =>
             {
                 var i = SelectedFileName;
+                Windows.Storage.ApplicationData.Current.LocalSettings.Values["lastLoadedDate"] = SelectedFileName;
             });
             BackCommand = new RelayCommand(() =>
             {
@@ -94,7 +97,7 @@ namespace MobilePlatformsProject.ViewModels
 
         public void OnNavigateTo(object parameter = null)
         {
-            Windows.Storage.ApplicationData.Current.LocalSettings.Values["lastPage"] = "MainPage";
+            Windows.Storage.ApplicationData.Current.LocalSettings.Values["lastOpenedPage"] = "MainPage";
         }
     }
 }
