@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -29,7 +30,21 @@ namespace MobilePlatformsProject
         public App()
         {
             this.InitializeComponent();
+            this.UnhandledException += OnUnhandledException;
             this.Suspending += OnSuspending;
+        }
+
+        private void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            e.Handled = true;
+#if !DEBUG
+   // log
+#else
+            if (Debugger.IsAttached)
+            {
+                Debugger.Break();
+            }
+#endif
         }
 
         /// <summary>

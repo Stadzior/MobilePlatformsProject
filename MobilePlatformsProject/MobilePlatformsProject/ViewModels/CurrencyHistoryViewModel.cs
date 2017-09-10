@@ -4,14 +4,8 @@ using GalaSoft.MvvmLight.Views;
 using MobilePlatformsProject.Interfaces;
 using MobilePlatformsProject.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using Windows.UI.Core;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 
 namespace MobilePlatformsProject.ViewModels
 {
@@ -34,6 +28,11 @@ namespace MobilePlatformsProject.ViewModels
         }
 
         public ICommand BackCommand { get; set; }
+        public ICommand ManipulationStartedCommand { get; set; }
+        public ICommand ManipulationCompletedCommand { get; set; }
+
+        private Windows.Foundation.Point _fingerPosition;
+
         public CurrencyHistoryViewModel(INavigationService navigationService)
         {
             _navigationService = navigationService;
@@ -45,6 +44,13 @@ namespace MobilePlatformsProject.ViewModels
             BackCommand = new RelayCommand(() =>
             {
                 _navigationService.GoBack();
+            });
+
+            ManipulationStartedCommand = new RelayCommand<ManipulationStartedRoutedEventArgs>(e => _fingerPosition = e.Position);
+            ManipulationCompletedCommand = new RelayCommand<ManipulationCompletedRoutedEventArgs>(e =>
+            {
+                //if (_fingerPosition.X < e.Position.X)
+                    //causes win32 unhandled exception _navigationService.NavigateTo("MainPage");
             });
         }
 

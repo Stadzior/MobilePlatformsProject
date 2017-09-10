@@ -10,10 +10,19 @@
     xmlns:syncfusion="using:Syncfusion.UI.Xaml.Charts"
     DataContext="{Binding CurrencyHistoryViewModel, Source={StaticResource ResourceKey=Locator}}"
     mc:Ignorable="d">
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" ManipulationMode="All">
+        <i:Interaction.Behaviors>
+            <core:EventTriggerBehavior EventName="ManipulationStarted">
+                <core:InvokeCommandAction Command="{Binding ManipulationStartedCommand}" />
+            </core:EventTriggerBehavior>
+            <core:EventTriggerBehavior EventName="ManipulationCompleted">
+                <core:InvokeCommandAction Command="{Binding ManipulationCompletedCommand}" />
+            </core:EventTriggerBehavior>
+        </i:Interaction.Behaviors>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
-            <RowDefinition Height="8*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="10*" />
         </Grid.RowDefinitions>
         <CommandBar
             Grid.Row="0"
@@ -28,7 +37,7 @@
                     </core:EventTriggerBehavior>
                 </i:Interaction.Behaviors>
             </AppBarButton>
-            <AppBarButton Icon="Refresh" Label="Refresh" />
+            <AppBarButton Icon="Save" Label="Save" />
             <CommandBar.Content>
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -39,18 +48,28 @@
                         x:Name="dateFromPicker"
                         Grid.Column="0"
                         Margin="0,0,15,0"
-                        Header="Start date:"
+                        Header="Data początkowa:"
                         MaxDate="{Binding Date, ElementName=dateToPicker}"
                         MinDate="{Binding MinDateTimeOffset}" />
                     <CalendarDatePicker
                         x:Name="dateToPicker"
                         Grid.Column="1"
-                        Header="End date:"
+                        Header="Data końcowa:"
                         MaxDate="{Binding MaxDateTimeOffset}"
                         MinDate="{Binding Date, ElementName=dateFromPicker}" />
                 </Grid>
             </CommandBar.Content>
         </CommandBar>
-        <syncfusion:SfChart Grid.Row="1" Grid.Column="0" Margin="15,15,15,15" />
+        <TextBlock
+            Grid.Row="1"
+            Grid.Column="0"
+            FontSize="30">
+            <Run Text="Historia waluty " />
+            <Run Text="{Binding Currency.Name}" />
+        </TextBlock>
+        <syncfusion:SfChart
+            Grid.Row="2"
+            Grid.Column="0"
+            Margin="15,15,15,15" />
     </Grid>
 </Page>

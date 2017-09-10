@@ -12,8 +12,8 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
-            <RowDefinition Height="10*" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="10*" />
         </Grid.RowDefinitions>
         <CommandBar
             Grid.Row="0"
@@ -31,7 +31,12 @@
             <AppBarButton Icon="Refresh" Label="Refresh" />
             <AppBarButton Icon="Save" Label="Save as" />
         </CommandBar>
-        <Grid Grid.Row="1" Grid.Column="0">
+        <TextBlock
+            Grid.Row="1"
+            Grid.Column="0"
+            FontSize="30"
+            Text="Średnie kursy walut" />
+        <Grid Grid.Row="2" Grid.Column="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="3*" />
@@ -85,12 +90,5 @@
                 </i:Interaction.Behaviors>
             </GridView>
         </Grid>
-        <TextBlock
-            Grid.Row="2"
-            Grid.Column="0"
-            FontSize="30">
-            <Run Text="Source:" />
-            <Run Text="{Binding SourceDescription}" />
-        </TextBlock>
     </Grid>
 </Page>

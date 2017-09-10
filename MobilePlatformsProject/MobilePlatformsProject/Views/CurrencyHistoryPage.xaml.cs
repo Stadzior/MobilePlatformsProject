@@ -32,9 +32,8 @@ namespace MobilePlatformsProject.Views
         {
             base.OnNavigatedTo(e);
 
-            var navigableViewModel = DataContext as INavigatableViewModel;
-            if (navigableViewModel != null)
-                navigableViewModel.OnNavigateTo(e.Parameter);
+            if (DataContext is INavigatableViewModel navigatableViewModel)
+                navigatableViewModel.OnNavigateTo(e.Parameter);
         }
     }
 }

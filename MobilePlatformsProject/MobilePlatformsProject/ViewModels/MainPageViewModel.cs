@@ -37,24 +37,12 @@ namespace MobilePlatformsProject.ViewModels
             }
         }
 
-        private string _sourceDescription;
-        public string SourceDescription
-        {
-            get => _sourceDescription;
-            set
-            {
-                _sourceDescription = value;
-                Set(() => SourceDescription, ref _sourceDescription, value);
-            }
-        }
-
         public ICommand NavigateToCurrencyHistoryCommand { get; set; }
         public ICommand BackCommand { get; set; }
         public ICommand LoadDataFromFileCommand { get; set; }
 
         public MainPageViewModel(INavigationService navigationService)
         {
-            SourceDescription = "None";
             _navigationService = navigationService;
             DownloadedFilesNames = new ObservableCollection<string>(
             Directory.GetFiles(Directory.GetCurrentDirectory(), "*.json", SearchOption.TopDirectoryOnly)
@@ -62,12 +50,13 @@ namespace MobilePlatformsProject.ViewModels
                 .Select(f => f.Replace(@"\", ""))
                 );
 
-            Currencies = new ObservableCollection<Currency>();
-            Currencies.Add(new Currency() { Name = "Dolar amerykański", Code = "USD", ExchangeRate = 3.7241 });
-            Currencies.Add(new Currency() { Name = "Dolar kanadyjski", Code = "CAD", ExchangeRate = 2.7703 });
-            Currencies.Add(new Currency() { Name = "euro", Code = "EUR", ExchangeRate = 4.1943 });
-            Currencies.Add(new Currency() { Name = "forint ", Code = "HUF", ExchangeRate = 0.013593 });
-
+            Currencies = new ObservableCollection<Currency>
+            {
+                new Currency() { Name = "Dolar amerykański", Code = "USD", ExchangeRate = 3.7241 },
+                new Currency() { Name = "Dolar kanadyjski", Code = "CAD", ExchangeRate = 2.7703 },
+                new Currency() { Name = "euro", Code = "EUR", ExchangeRate = 4.1943 },
+                new Currency() { Name = "forint ", Code = "HUF", ExchangeRate = 0.013593 }
+            };
             RegisterCommands();
         }
 
