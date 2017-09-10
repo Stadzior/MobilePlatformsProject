@@ -31,5 +31,13 @@ namespace MobilePlatformsProject
         {
             this.InitializeComponent();
         }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            if (DataContext is INavigatableViewModel navigatableViewModel)
+                navigatableViewModel.OnNavigateTo(e.Parameter);
+        }
     }
 }

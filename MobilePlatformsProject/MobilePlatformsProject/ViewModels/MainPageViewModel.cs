@@ -18,7 +18,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace MobilePlatformsProject.ViewModels
 {
-    public class MainPageViewModel : ViewModelBase, IRegisterCommands
+    public class MainPageViewModel : ViewModelBase, IRegisterCommands, INavigatableViewModel
     {
         private CancellationTokenSource _tokenSource = new CancellationTokenSource();
         private readonly INavigationService _navigationService;
@@ -64,7 +64,7 @@ namespace MobilePlatformsProject.ViewModels
 
         public void RegisterCommands()
         {
-            NavigateToCurrencyHistoryCommand = new RelayCommand(() => _navigationService.NavigateTo("CurrencyHistory", SelectedCurrencies));
+            NavigateToCurrencyHistoryCommand = new RelayCommand(() => _navigationService.NavigateTo("CurrencyHistory", SelectedCurrencies),() => SelectedCurrencies != null && SelectedCurrencies.Any());
             LoadDataFromFileCommand = new RelayCommand(() =>
             {
                 var i = SelectedFileName;
@@ -90,6 +90,11 @@ namespace MobilePlatformsProject.ViewModels
                         SelectedCurrencies.Add(item);
                 }
             });
+        }
+
+        public void OnNavigateTo(object parameter = null)
+        {
+            Windows.Storage.ApplicationData.Current.LocalSettings.Values["lastPage"] = "MainPage";
         }
     }
 }

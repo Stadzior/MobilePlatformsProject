@@ -70,7 +70,7 @@
             Grid.Row="1"
             Grid.Column="0"
             FontSize="30">
-            <Run Text="Historia walut(y) " />
+            <Run Text="Historia walut(y): " />
             <Run Text="{Binding SelectedCurrencies, Converter={StaticResource ResourceKey=CurrenciesToStringConverter}}" />
         </TextBlock>
         <syncfusion:SfChart

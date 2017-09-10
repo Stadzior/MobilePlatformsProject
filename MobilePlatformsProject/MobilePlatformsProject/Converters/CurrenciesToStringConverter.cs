@@ -12,17 +12,22 @@ namespace MobilePlatformsProject.Converters
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            var sourceList = (IEnumerable<Currency>)value;
-            char separator = parameter == null ? ';' : (char)parameter;
-            var targetStringBuilder = new StringBuilder();
-            foreach (var item in sourceList)
+            if (value is IEnumerable<Currency> sourceList && sourceList.Any())
             {
-                targetStringBuilder.Append(item.Name).Append(separator);
+                char separator = parameter == null ? ',' : (char)parameter;
+                var targetStringBuilder = new StringBuilder();
+                foreach (var item in sourceList)
+                {
+                    targetStringBuilder.Append(item.Name).Append(separator);
+                }
+
+                targetStringBuilder.Remove(targetStringBuilder.Length - 1, 1);
+
+                return targetStringBuilder.ToString();
             }
+            else
+                return string.Empty;
 
-            targetStringBuilder.Remove(targetStringBuilder.Length - 1, 1);
-
-            return targetStringBuilder.ToString();
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)

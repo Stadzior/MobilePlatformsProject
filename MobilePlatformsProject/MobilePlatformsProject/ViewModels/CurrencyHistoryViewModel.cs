@@ -47,7 +47,10 @@ namespace MobilePlatformsProject.ViewModels
             });
         }
 
-        public void OnNavigateTo(object parameter = null) 
-            => SelectedCurrencies = new ObservableCollection<Currency>((IEnumerable<Currency>)parameter);
+        public void OnNavigateTo(object parameter = null)
+        {
+            SelectedCurrencies = new ObservableCollection<Currency>((IEnumerable<Currency>)parameter);
+            Windows.Storage.ApplicationData.Current.LocalSettings.Values["lastPage"] = "CurrencyHistory";
+        }
     }
 }

@@ -12,7 +12,6 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
             <RowDefinition Height="10*" />
         </Grid.RowDefinitions>
         <CommandBar
@@ -38,15 +37,10 @@
                 </i:Interaction.Behaviors>
             </AppBarButton>
         </CommandBar>
-        <TextBlock
-            Grid.Row="1"
-            Grid.Column="0"
-            FontSize="30"
-            Text="Średnie kursy walut" />
-        <Grid Grid.Row="2" Grid.Column="0">
+        <Grid Grid.Row="1" Grid.Column="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="3*" />
+                <ColumnDefinition Width="5*" />
             </Grid.ColumnDefinitions>
             <ListView
                 Grid.Row="0"
@@ -56,40 +50,52 @@
                 IsItemClickEnabled="True"
                 ItemsSource="{Binding DownloadedFilesNames}"
                 SelectedItem="{Binding SelectedFileName}" />
-            <GridView
-                x:Name="GridCurrencies"
-                Grid.Row="0"
-                Grid.Column="1"
-                Margin="30"
-                IsItemClickEnabled="True"
-                IsSwipeEnabled="true"
-                ItemsSource="{Binding Currencies}"
-                SelectionMode="Multiple">
-                <GridView.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapGrid Orientation="Vertical" />
-                    </ItemsPanelTemplate>
-                </GridView.ItemsPanel>
-                <GridView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="150" />
-                                <ColumnDefinition Width="100" />
-                                <ColumnDefinition Width="100" />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="{Binding Name}" />
-                            <TextBlock Grid.Column="1" Text="{Binding Code}" />
-                            <TextBlock Grid.Column="2" Text="{Binding ExchangeRate}" />
-                        </Grid>
-                    </DataTemplate>
-                </GridView.ItemTemplate>
-                <i:Interaction.Behaviors>
-                    <core:EventTriggerBehavior EventName="SelectionChanged">
-                        <core:InvokeCommandAction Command="{Binding SelectedCurrenciesChangedCommand}" />
-                    </core:EventTriggerBehavior>
-                </i:Interaction.Behaviors>
-            </GridView>
+            <Grid Grid.Row="0" Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="10*" />
+                </Grid.RowDefinitions>
+                <TextBlock
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    FontSize="30"
+                    Text="Średnie kursy walut:" />
+                <GridView
+                    x:Name="GridCurrencies"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Margin="30"
+                    IsItemClickEnabled="True"
+                    IsSwipeEnabled="true"
+                    ItemsSource="{Binding Currencies}"
+                    SelectionMode="Multiple">
+                    <GridView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapGrid Orientation="Vertical" />
+                        </ItemsPanelTemplate>
+                    </GridView.ItemsPanel>
+                    <GridView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="150" />
+                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="100" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="{Binding Name}" />
+                                <TextBlock Grid.Column="1" Text="{Binding Code}" />
+                                <TextBlock Grid.Column="2" Text="{Binding ExchangeRate}" />
+                            </Grid>
+                        </DataTemplate>
+                    </GridView.ItemTemplate>
+                    <i:Interaction.Behaviors>
+                        <core:EventTriggerBehavior EventName="SelectionChanged">
+                            <core:InvokeCommandAction Command="{Binding SelectedCurrenciesChangedCommand}" />
+                        </core:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
+                </GridView>
+
+            </Grid>
         </Grid>
     </Grid>
 </Page>
