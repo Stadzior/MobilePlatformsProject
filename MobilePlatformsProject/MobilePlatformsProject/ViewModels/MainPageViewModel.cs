@@ -21,8 +21,10 @@ namespace MobilePlatformsProject.ViewModels
     {
         private CancellationTokenSource _tokenSource = new CancellationTokenSource();
         private readonly INavigationService _navigationService;
-
+        
         public ObservableCollection<string> DownloadedFilesNames { get; set; }
+        public ObservableCollection<Currency> Currencies { get; set; }
+
         private string _selectedFileName;
         public string SelectedFileName
         {
@@ -33,15 +35,14 @@ namespace MobilePlatformsProject.ViewModels
                 Set(() => SelectedFileName, ref _selectedFileName, value);
             }
         }
-        public ObservableCollection<Currency> Currencies { get; set; }
+
         public ICommand NavigateToCurrencyHistoryCommand { get; set; }
         public ICommand BackCommand { get; set; }
         public ICommand LoadDataFromFileCommand { get; set; }
 
         public MainPageViewModel(INavigationService navigationService)
         {
-            _navigationService = navigationService;;
-
+            _navigationService = navigationService;
             DownloadedFilesNames = new ObservableCollection<string>(
             Directory.GetFiles(Directory.GetCurrentDirectory(), "*.json", SearchOption.TopDirectoryOnly)
                 .Select(f => f.Substring(f.LastIndexOf(@"\")))
@@ -59,21 +60,14 @@ namespace MobilePlatformsProject.ViewModels
 
         public void RegisterCommands()
         {
-            NavigateToCurrencyHistoryCommand = new RelayCommand(() => _navigationService.NavigateTo("CurrencyHistory"));
+            NavigateToCurrencyHistoryCommand = new RelayCommand<ItemClickEventArgs>(e => _navigationService.NavigateTo("CurrencyHistory", e.ClickedItem));
             LoadDataFromFileCommand = new RelayCommand(() =>
             {
                 var i = SelectedFileName;
             });
             BackCommand = new RelayCommand(() =>
             {
-                Frame rootFrame = Window.Current.Content as Frame;
-                if (rootFrame == null)
-                    return;
-
-                if (rootFrame.CanGoBack)
-                {
-                    rootFrame.GoBack();
-                }
+                _navigationService.GoBack();
             });
         }
     }

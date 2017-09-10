@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Views;
 using MobilePlatformsProject.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -15,10 +16,12 @@ namespace MobilePlatformsProject.ViewModels
 {
     public class CurrencyHistoryViewModel : ViewModelBase, IRegisterCommands
     {
+        private INavigationService _navigationService;
 
         public ICommand BackCommand { get; set; }
-        public CurrencyHistoryViewModel()
+        public CurrencyHistoryViewModel(INavigationService navigationService)
         {
+            _navigationService = navigationService;
             RegisterCommands();
         }
 
@@ -26,14 +29,7 @@ namespace MobilePlatformsProject.ViewModels
         {
             BackCommand = new RelayCommand(() =>
             {
-                Frame rootFrame = Window.Current.Content as Frame;
-                if (rootFrame == null)
-                    return;
-
-                if (rootFrame.CanGoBack)
-                {
-                    rootFrame.GoBack();
-                }
+                _navigationService.GoBack();
             });
         }
     }
