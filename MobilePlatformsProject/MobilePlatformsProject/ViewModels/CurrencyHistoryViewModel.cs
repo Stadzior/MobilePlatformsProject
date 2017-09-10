@@ -4,6 +4,8 @@ using GalaSoft.MvvmLight.Views;
 using MobilePlatformsProject.Interfaces;
 using MobilePlatformsProject.Models;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Windows.UI.Xaml.Input;
 
@@ -16,16 +18,7 @@ namespace MobilePlatformsProject.ViewModels
         public DateTimeOffset MaxDateTimeOffset => DateTimeOffset.Now;
         public DateTimeOffset MinDateTimeOffset => DateTimeOffset.Parse("2002-02-02");
 
-        private Currency _currency;
-        public Currency Currency
-        {
-            get => _currency;
-            set
-            {
-                _currency = value;
-                Set(() => Currency, ref _currency, value);
-            }
-        }
+        public ObservableCollection<Currency> SelectedCurrencies { get; set; }
 
         public ICommand BackCommand { get; set; }
         public ICommand ManipulationStartedCommand { get; set; }
@@ -55,6 +48,6 @@ namespace MobilePlatformsProject.ViewModels
         }
 
         public void OnNavigateTo(object parameter = null) 
-            => Currency = (Currency)parameter;
+            => SelectedCurrencies = new ObservableCollection<Currency>((IEnumerable<Currency>)parameter);
     }
 }

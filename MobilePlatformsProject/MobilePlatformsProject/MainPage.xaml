@@ -64,7 +64,6 @@
                 IsItemClickEnabled="True"
                 IsSwipeEnabled="true"
                 ItemsSource="{Binding Currencies}"
-                SelectedItems="{Binding SelectedCurrencies}"
                 SelectionMode="Multiple">
                 <GridView.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -86,8 +85,8 @@
                     </DataTemplate>
                 </GridView.ItemTemplate>
                 <i:Interaction.Behaviors>
-                    <core:EventTriggerBehavior EventName="ItemClick">
-                        <core:InvokeCommandAction Command="{Binding NavigateToCurrencyHistoryCommand}" />
+                    <core:EventTriggerBehavior EventName="SelectionChanged">
+                        <core:InvokeCommandAction Command="{Binding SelectedCurrenciesChangedCommand}" />
                     </core:EventTriggerBehavior>
                 </i:Interaction.Behaviors>
             </GridView>

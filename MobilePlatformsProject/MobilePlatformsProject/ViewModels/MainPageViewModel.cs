@@ -26,7 +26,7 @@ namespace MobilePlatformsProject.ViewModels
         public ObservableCollection<string> DownloadedFilesNames { get; set; }
         public ObservableCollection<Currency> Currencies { get; set; }
         public ObservableCollection<Currency> SelectedCurrencies { get; set; }
-        //TODO Binding to SelectedItems && Windows.Storage && REST
+        //TODO && REST
         private string _selectedFileName;
         public string SelectedFileName
         {
@@ -41,6 +41,7 @@ namespace MobilePlatformsProject.ViewModels
         public ICommand NavigateToCurrencyHistoryCommand { get; set; }
         public ICommand BackCommand { get; set; }
         public ICommand LoadDataFromFileCommand { get; set; }
+        public ICommand SelectedCurrenciesChangedCommand { get; set; }
 
         public MainPageViewModel(INavigationService navigationService)
         {
@@ -71,6 +72,23 @@ namespace MobilePlatformsProject.ViewModels
             BackCommand = new RelayCommand(() =>
             {
                 _navigationService.GoBack();
+            });
+            SelectedCurrenciesChangedCommand = new RelayCommand<SelectionChangedEventArgs>(e =>
+            {
+                if (SelectedCurrencies == null)
+                    SelectedCurrencies = new ObservableCollection<Currency>();
+
+                foreach (var item in e.RemovedItems.Cast<Currency>())
+                {
+                    if (SelectedCurrencies.Contains(item))
+                        SelectedCurrencies.Remove(item);
+                }
+
+                foreach (var item in e.AddedItems.Cast<Currency>())
+                {
+                    if (!SelectedCurrencies.Contains(item))
+                        SelectedCurrencies.Add(item);
+                }
             });
         }
     }
