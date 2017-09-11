@@ -40,9 +40,7 @@ namespace MobilePlatformsProject
                 navigatableViewModel.OnNavigateTo(e.Parameter);
         }
 
-        private void ListView_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-            SplitViewCurrencies.IsPaneOpen = !SplitViewCurrencies.IsPaneOpen;
-        }
+        private void AppBarButton_Click(object sender, RoutedEventArgs e)
+            => SplitViewCurrencies.IsPaneOpen = !SplitViewCurrencies.IsPaneOpen;
     }
 }

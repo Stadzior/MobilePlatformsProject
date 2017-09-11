@@ -17,9 +17,14 @@
         <CommandBar
             Grid.Row="0"
             Grid.Column="0"
-            IsOpen="True"
             IsSticky="True"
             OverflowButtonVisibility="Collapsed">
+            <CommandBar.Content>
+                <AppBarButton
+                    Click="AppBarButton_Click"
+                    Icon="OpenPane"
+                    Label="Archiwum" />
+            </CommandBar.Content>
             <AppBarButton Icon="Back" Label="Back">
                 <i:Interaction.Behaviors>
                     <core:EventTriggerBehavior EventName="Click">
@@ -41,7 +46,7 @@
             x:Name="SplitViewCurrencies"
             Grid.Row="1"
             Grid.Column="0"
-            DisplayMode="CompactInline"
+            DisplayMode="Overlay"
             PanePlacement="Left">
             <SplitView.Content>
                 <Grid>
@@ -52,6 +57,7 @@
                     <TextBlock
                         Grid.Row="0"
                         Grid.Column="0"
+                        Margin="30,0,0,0"
                         FontSize="30"
                         Text="Średnie kursy walut:" />
                     <GridView
@@ -96,8 +102,7 @@
                     Background="WhiteSmoke"
                     IsItemClickEnabled="True"
                     ItemsSource="{Binding DownloadedFilesNames}"
-                    SelectedItem="{Binding SelectedFileName}"
-                    Tapped="ListView_Tapped" />
+                    SelectedItem="{Binding SelectedFileName}" />
             </SplitView.Pane>
         </SplitView>
     </Grid>

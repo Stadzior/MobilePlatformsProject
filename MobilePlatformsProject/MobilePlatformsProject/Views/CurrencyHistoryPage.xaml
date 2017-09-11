@@ -33,6 +33,7 @@
         <CommandBar
             Grid.Row="0"
             Grid.Column="0"
+            Margin="15,0,0,0"
             IsOpen="True"
             IsSticky="True"
             OverflowButtonVisibility="Collapsed">
@@ -43,7 +44,13 @@
                     </core:EventTriggerBehavior>
                 </i:Interaction.Behaviors>
             </AppBarButton>
-            <AppBarButton Icon="Save" Label="Save" />
+            <AppBarButton Icon="Save" Label="Save">
+                <i:Interaction.Behaviors>
+                    <core:EventTriggerBehavior EventName="Click">
+                        <core:InvokeCommandAction Command="{Binding SaveCommand}" CommandParameter="{}" />
+                    </core:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
+            </AppBarButton>
             <CommandBar.Content>
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -54,23 +61,34 @@
                         x:Name="dateFromPicker"
                         Grid.Column="0"
                         Margin="0,0,15,0"
-                        Date="{Binding DateFrom}"
                         Header="Data początkowa:"
-                        MaxDate="{Binding Date, ElementName=dateToPicker}"
-                        MinDate="{Binding MinDateTimeOffset}" />
+                        MaxDate="{Binding DateTo}"
+                        MinDate="{Binding MinDateTimeOffset}">
+                        <i:Interaction.Behaviors>
+                            <core:EventTriggerBehavior EventName="DateChanged">
+                                <core:InvokeCommandAction Command="{Binding DateFromChangedCommand}" />
+                            </core:EventTriggerBehavior>
+                        </i:Interaction.Behaviors>
+                    </CalendarDatePicker>
                     <CalendarDatePicker
                         x:Name="dateToPicker"
                         Grid.Column="1"
-                        Date="{Binding DateTo}"
                         Header="Data końcowa:"
                         MaxDate="{Binding MaxDateTimeOffset}"
-                        MinDate="{Binding Date, ElementName=dateFromPicker}" />
+                        MinDate="{Binding DateFrom}">
+                        <i:Interaction.Behaviors>
+                            <core:EventTriggerBehavior EventName="DateChanged">
+                                <core:InvokeCommandAction Command="{Binding DateToChangedCommand}" />
+                            </core:EventTriggerBehavior>
+                        </i:Interaction.Behaviors>
+                    </CalendarDatePicker>
                 </Grid>
             </CommandBar.Content>
         </CommandBar>
         <TextBlock
             Grid.Row="1"
             Grid.Column="0"
+            Margin="15,0,0,0"
             FontSize="30">
             <Run Text="Historia walut(y): " />
             <Run Text="{Binding SelectedCurrencies, Converter={StaticResource ResourceKey=CurrenciesToStringConverter}}" />
@@ -78,6 +96,6 @@
         <syncfusion:SfChart
             Grid.Row="2"
             Grid.Column="0"
-            Margin="15,15,15,15" />
+            Margin="30,15,30,15" />
     </Grid>
 </Page>

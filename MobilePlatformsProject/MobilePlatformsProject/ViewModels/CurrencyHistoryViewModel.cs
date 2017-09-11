@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 
 namespace MobilePlatformsProject.ViewModels
@@ -15,10 +16,10 @@ namespace MobilePlatformsProject.ViewModels
     {
         private INavigationService _navigationService;
 
-        private DateTime _dateFrom;
-        public DateTime DateFrom
+        private DateTimeOffset? _dateFrom;
+        public DateTimeOffset? DateFrom
         {
-            get => _dateFrom;
+            get => _dateFrom ?? MinDateTimeOffset;
             set
             {
                 _dateFrom = value;
@@ -27,10 +28,10 @@ namespace MobilePlatformsProject.ViewModels
             }
         }
 
-        private DateTime _dateTo;
-        public DateTime DateTo
+        private DateTimeOffset? _dateTo;
+        public DateTimeOffset? DateTo
         {
-            get => _dateTo;
+            get => _dateTo ?? MaxDateTimeOffset;
             set
             {
                 _dateTo = value;
@@ -47,14 +48,14 @@ namespace MobilePlatformsProject.ViewModels
         public ICommand BackCommand { get; set; }
         public ICommand ManipulationStartedCommand { get; set; }
         public ICommand ManipulationCompletedCommand { get; set; }
+        public ICommand DateFromChangedCommand { get; set; }
+        public ICommand DateToChangedCommand { get; set; }
 
         private Windows.Foundation.Point _fingerPosition;
 
         public CurrencyHistoryViewModel(INavigationService navigationService)
         {
             _navigationService = navigationService;
-            DateFrom = DateTime.Now.AddDays(-10);
-            DateTo = DateTime.Now;
 
             RegisterCommands();
         }
@@ -72,6 +73,9 @@ namespace MobilePlatformsProject.ViewModels
                 //if (_fingerPosition.X < e.Position.X)
                     //causes win32 unhandled exception _navigationService.NavigateTo("MainPage");
             });
+
+            DateFromChangedCommand = new RelayCommand<CalendarDatePickerDateChangedEventArgs>(e => DateFrom = e.NewDate);
+            DateToChangedCommand = new RelayCommand<CalendarDatePickerDateChangedEventArgs>(e => DateTo = e.NewDate);
         }
 
         public void OnNavigateTo(object parameter = null)
