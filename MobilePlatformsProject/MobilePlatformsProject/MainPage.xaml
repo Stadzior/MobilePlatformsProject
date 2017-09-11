@@ -12,11 +12,12 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
-            <RowDefinition Height="10*" />
+            <RowDefinition Height="8*" />
         </Grid.RowDefinitions>
         <CommandBar
             Grid.Row="0"
             Grid.Column="0"
+            IsOpen="True"
             IsSticky="True"
             OverflowButtonVisibility="Collapsed">
             <CommandBar.Content>

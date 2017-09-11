@@ -3,6 +3,7 @@ using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Views;
 using MobilePlatformsProject.Interfaces;
 using MobilePlatformsProject.Models;
+using Syncfusion.UI.Xaml.Charts;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -50,6 +51,7 @@ namespace MobilePlatformsProject.ViewModels
         public ICommand ManipulationCompletedCommand { get; set; }
         public ICommand DateFromChangedCommand { get; set; }
         public ICommand DateToChangedCommand { get; set; }
+        public ICommand SaveCommand { get; set; }
 
         private Windows.Foundation.Point _fingerPosition;
 
@@ -76,6 +78,10 @@ namespace MobilePlatformsProject.ViewModels
 
             DateFromChangedCommand = new RelayCommand<CalendarDatePickerDateChangedEventArgs>(e => DateFrom = e.NewDate);
             DateToChangedCommand = new RelayCommand<CalendarDatePickerDateChangedEventArgs>(e => DateTo = e.NewDate);
+            SaveCommand = new RelayCommand<SfChart>(chart =>
+            {
+                chart.Save("dummy.jpg", Windows.ApplicationModel.Package.Current.InstalledLocation);
+            });
         }
 
         public void OnNavigateTo(object parameter = null)

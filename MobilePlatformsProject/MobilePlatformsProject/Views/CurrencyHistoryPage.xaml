@@ -47,7 +47,7 @@
             <AppBarButton Icon="Save" Label="Save">
                 <i:Interaction.Behaviors>
                     <core:EventTriggerBehavior EventName="Click">
-                        <core:InvokeCommandAction Command="{Binding SaveCommand}" CommandParameter="{}" />
+                        <core:InvokeCommandAction Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=chartCurrencyHistory}" />
                     </core:EventTriggerBehavior>
                 </i:Interaction.Behaviors>
             </AppBarButton>
@@ -94,8 +94,17 @@
             <Run Text="{Binding SelectedCurrencies, Converter={StaticResource ResourceKey=CurrenciesToStringConverter}}" />
         </TextBlock>
         <syncfusion:SfChart
+            x:Name="chartCurrencyHistory"
             Grid.Row="2"
             Grid.Column="0"
-            Margin="30,15,30,15" />
+            Margin="15,15,30,15"
+            Background="White">
+            <syncfusion:SfChart.PrimaryAxis>
+                <syncfusion:DateTimeAxis Header="Time" LabelFormat="MM/dd/yyyy" />
+            </syncfusion:SfChart.PrimaryAxis>
+            <syncfusion:SfChart.SecondaryAxis>
+                <syncfusion:NumericalAxis Header="Value" />
+            </syncfusion:SfChart.SecondaryAxis>
+        </syncfusion:SfChart>
     </Grid>
 </Page>

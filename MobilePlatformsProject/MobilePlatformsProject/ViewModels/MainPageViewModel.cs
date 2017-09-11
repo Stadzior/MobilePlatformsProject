@@ -43,6 +43,7 @@ namespace MobilePlatformsProject.ViewModels
         public ICommand LoadDataFromFileCommand { get; set; }
         public ICommand SelectedCurrenciesChangedCommand { get; set; }
         public ICommand OpenPaneCommand { get; set; }
+        public ICommand SaveCommand { get; set; }
 
         public MainPageViewModel(INavigationService navigationService)
         {
