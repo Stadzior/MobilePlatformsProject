@@ -37,14 +37,14 @@
             IsOpen="True"
             IsSticky="True"
             OverflowButtonVisibility="Collapsed">
-            <AppBarButton Icon="Back" Label="Back">
+            <AppBarButton Icon="Back" Label="Powrót">
                 <i:Interaction.Behaviors>
                     <core:EventTriggerBehavior EventName="Click">
                         <core:InvokeCommandAction Command="{Binding BackCommand}" />
                     </core:EventTriggerBehavior>
                 </i:Interaction.Behaviors>
             </AppBarButton>
-            <AppBarButton Icon="Save" Label="Save">
+            <AppBarButton Icon="Save" Label="Zapisz">
                 <i:Interaction.Behaviors>
                     <core:EventTriggerBehavior EventName="Click">
                         <core:InvokeCommandAction Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=chartCurrencyHistory}" />

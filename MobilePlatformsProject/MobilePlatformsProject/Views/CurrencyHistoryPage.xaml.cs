@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -33,7 +34,11 @@ namespace MobilePlatformsProject.Views
             base.OnNavigatedTo(e);
 
             if (DataContext is INavigatableViewModel navigatableViewModel)
+            {
                 navigatableViewModel.OnNavigateTo(e.Parameter);
+                dateFromPicker.Date = (DateTimeOffset)e.Parameter.GetType().GetProperty("DateFrom").GetValue(e.Parameter);
+                dateToPicker.Date = (DateTimeOffset)e.Parameter.GetType().GetProperty("DateTo").GetValue(e.Parameter);
+            }
         }
     }
 }

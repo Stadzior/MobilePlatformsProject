@@ -26,15 +26,15 @@
                     Icon="OpenPane"
                     Label="Archiwum" />
             </CommandBar.Content>
-            <AppBarButton Icon="Back" Label="Back">
+            <AppBarButton Icon="Back" Label="Powrót">
                 <i:Interaction.Behaviors>
                     <core:EventTriggerBehavior EventName="Click">
                         <core:InvokeCommandAction Command="{Binding BackCommand}" />
                     </core:EventTriggerBehavior>
                 </i:Interaction.Behaviors>
             </AppBarButton>
-            <AppBarButton Icon="Refresh" Label="Refresh" />
-            <AppBarButton Icon="Save" Label="Save as" />
+            <AppBarButton Icon="Download" Label="Pobierz aktualne dane" />
+            <AppBarButton Icon="Save" Label="Zapisz" />
             <AppBarButton Icon="Forward" Label="Zobacz historię">
                 <i:Interaction.Behaviors>
                     <core:EventTriggerBehavior EventName="Click">

@@ -7,6 +7,7 @@ using Syncfusion.UI.Xaml.Charts;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Reflection;
 using System.Windows.Input;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -86,7 +87,7 @@ namespace MobilePlatformsProject.ViewModels
 
         public void OnNavigateTo(object parameter = null)
         {
-            SelectedCurrencies = new ObservableCollection<Currency>((IEnumerable<Currency>)parameter);
+            SelectedCurrencies = new ObservableCollection<Currency>((IEnumerable<Currency>)parameter.GetType().GetProperty("SelectedCurrencies").GetValue(parameter));
             Windows.Storage.ApplicationData.Current.LocalSettings.Values["lastOpenedPage"] = "CurrencyHistory";
             //Windows.Storage.ApplicationData.Current.LocalSettings.Values["SelectedCurrencies"] = SelectedCurrencies;
         }

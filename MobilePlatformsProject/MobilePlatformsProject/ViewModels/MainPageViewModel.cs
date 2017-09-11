@@ -48,6 +48,7 @@ namespace MobilePlatformsProject.ViewModels
         public MainPageViewModel(INavigationService navigationService)
         {
             _navigationService = navigationService;
+
             DownloadedFilesNames = new ObservableCollection<string>(
             Directory.GetFiles(Directory.GetCurrentDirectory(), "*.json", SearchOption.TopDirectoryOnly)
                 .Select(f => f.Substring(f.LastIndexOf(@"\")))
@@ -63,15 +64,45 @@ namespace MobilePlatformsProject.ViewModels
             };
 
             RegisterCommands();
+
+            RetrieveAppState();
+        }
+
+        private void RetrieveAppState()
+        {
+            var localStorage = Windows.Storage.ApplicationData.Current.LocalSettings;
+            if (localStorage.Values["LastOpenedPage"].ToString() == "MainPage")
+            {
+                //TODO Do loading lastly loaded file 
+                var lastLoadedFileName = localStorage.Values["lastLoadedFile"];
+            }
+            else
+            {
+                _navigationService.NavigateTo(
+                    "CurrencyHistory",
+                    new
+                    {
+                        SelectedCurrencies = SelectedCurrencies,
+                        DateFrom = localStorage.Values["CurrencyHistoryDateFrom"],
+                        DateTo = localStorage.Values["CurrencyHistoryDateTo"],
+                    });
+            }
         }
 
         public void RegisterCommands()
         {
-            NavigateToCurrencyHistoryCommand = new RelayCommand(() => _navigationService.NavigateTo("CurrencyHistory", SelectedCurrencies),() => SelectedCurrencies != null && SelectedCurrencies.Any());
+            NavigateToCurrencyHistoryCommand = new RelayCommand(() => _navigationService.NavigateTo(
+                "CurrencyHistory",
+                new
+                {
+                    SelectedCurrencies = SelectedCurrencies,
+                    DateFrom = DateTimeOffset.Now.AddDays(-10),
+                    DateTo = DateTimeOffset.Now
+                }),() => SelectedCurrencies != null && SelectedCurrencies.Any());
             LoadDataFromFileCommand = new RelayCommand(() =>
             {
                 var i = SelectedFileName;
-                Windows.Storage.ApplicationData.Current.LocalSettings.Values["lastLoadedDate"] = SelectedFileName;
+                Windows.Storage.ApplicationData.Current.LocalSettings.Values["lastLoadedFile"] = SelectedFileName;
             });
             BackCommand = new RelayCommand(() =>
             {
