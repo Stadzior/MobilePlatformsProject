@@ -100,10 +100,10 @@
             Margin="15,15,30,15"
             Background="White">
             <syncfusion:SfChart.PrimaryAxis>
-                <syncfusion:DateTimeAxis Header="Time" LabelFormat="MM/dd/yyyy" />
+                <syncfusion:DateTimeAxis Header="Czas" LabelFormat="MM/dd/yy" />
             </syncfusion:SfChart.PrimaryAxis>
             <syncfusion:SfChart.SecondaryAxis>
-                <syncfusion:NumericalAxis Header="Value" />
+                <syncfusion:NumericalAxis Header="Kurs" />
             </syncfusion:SfChart.SecondaryAxis>
         </syncfusion:SfChart>
     </Grid>

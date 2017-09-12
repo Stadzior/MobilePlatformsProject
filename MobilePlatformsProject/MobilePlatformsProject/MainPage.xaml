@@ -21,10 +21,19 @@
             IsSticky="True"
             OverflowButtonVisibility="Collapsed">
             <CommandBar.Content>
-                <AppBarButton
-                    Click="AppBarButton_Click"
-                    Icon="OpenPane"
-                    Label="Archiwum" />
+                <CalendarDatePicker
+                    x:Name="datePicker"
+                    Grid.Column="0"
+                    Margin="15,0,0,0"
+                    Header="Data pobieranych danych:"
+                    MaxDate="{Binding MaxDateTimeOffset}"
+                    MinDate="{Binding MinDateTimeOffset}">
+                    <i:Interaction.Behaviors>
+                        <core:EventTriggerBehavior EventName="DateChanged">
+                            <core:InvokeCommandAction Command="{Binding DateChangedCommand}" />
+                        </core:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
+                </CalendarDatePicker>
             </CommandBar.Content>
             <AppBarButton Icon="Back" Label="Powrót">
                 <i:Interaction.Behaviors>
@@ -33,9 +42,19 @@
                     </core:EventTriggerBehavior>
                 </i:Interaction.Behaviors>
             </AppBarButton>
-            <AppBarButton Icon="Download" Label="Pobierz aktualne dane" />
+            <AppBarButton
+                Click="AppBarButton_Click"
+                Icon="OpenPane"
+                Label="Archiwum" />
+            <AppBarButton Icon="Download" Label="Pobierz dane">
+                <i:Interaction.Behaviors>
+                    <core:EventTriggerBehavior EventName="Click">
+                        <core:InvokeCommandAction Command="{Binding DownloadDataCommand}" />
+                    </core:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
+            </AppBarButton>
             <AppBarButton Icon="Save" Label="Zapisz" />
-            <AppBarButton Icon="Forward" Label="Zobacz historię">
+            <AppBarButton Icon="FourBars" Label="Wykres kursu">
                 <i:Interaction.Behaviors>
                     <core:EventTriggerBehavior EventName="Click">
                         <core:InvokeCommandAction Command="{Binding NavigateToCurrencyHistoryCommand}" />

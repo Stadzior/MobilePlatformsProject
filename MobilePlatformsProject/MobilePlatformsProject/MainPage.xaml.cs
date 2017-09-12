@@ -30,6 +30,7 @@ namespace MobilePlatformsProject
         public MainPage()
         {
             this.InitializeComponent();
+            datePicker.Date = DateTimeOffset.Now;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

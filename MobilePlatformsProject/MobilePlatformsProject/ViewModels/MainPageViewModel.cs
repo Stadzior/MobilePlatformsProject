@@ -38,16 +38,34 @@ namespace MobilePlatformsProject.ViewModels
             }
         }
 
+        private DateTimeOffset? _date;
+        public DateTimeOffset? Date
+        {
+            get => _date;
+            set
+            {
+                _date = value;
+                Set(() => Date, ref _date, value);
+                Windows.Storage.ApplicationData.Current.LocalSettings.Values["MainPageDate"] = Date;
+            }
+        }
+
+        public DateTimeOffset MaxDateTimeOffset => DateTimeOffset.Now;
+        public DateTimeOffset MinDateTimeOffset => DateTimeOffset.Parse("2002-02-02");
+
         public ICommand NavigateToCurrencyHistoryCommand { get; set; }
         public ICommand BackCommand { get; set; }
         public ICommand LoadDataFromFileCommand { get; set; }
         public ICommand SelectedCurrenciesChangedCommand { get; set; }
         public ICommand OpenPaneCommand { get; set; }
         public ICommand SaveCommand { get; set; }
+        public ICommand DateChangedCommand { get; set; }
+        public ICommand DownloadDataCommand { get; set; }
 
         public MainPageViewModel(INavigationService navigationService)
         {
             _navigationService = navigationService;
+            Date = DateTimeOffset.Now;
 
             DownloadedFilesNames = new ObservableCollection<string>(
             Directory.GetFiles(Directory.GetCurrentDirectory(), "*.json", SearchOption.TopDirectoryOnly)
@@ -125,6 +143,13 @@ namespace MobilePlatformsProject.ViewModels
                         SelectedCurrencies.Add(item);
                 }
             });
+            DateChangedCommand = new RelayCommand<CalendarDatePickerDateChangedEventArgs>(e => Date = e.NewDate);
+            DownloadDataCommand = new RelayCommand(async () => await DownloadDataAsync(Date));
+        }
+
+        private async Task DownloadDataAsync(DateTimeOffset? date)
+        {
+            throw new NotImplementedException();
         }
 
         public void OnNavigateTo(object parameter = null)
