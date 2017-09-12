@@ -4,6 +4,7 @@ using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight.Views;
 using MobilePlatformsProject.Interfaces;
 using MobilePlatformsProject.Models;
+using MobilePlatformsProject.Rest;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -149,7 +150,10 @@ namespace MobilePlatformsProject.ViewModels
 
         private async Task DownloadDataAsync(DateTimeOffset? date)
         {
-            throw new NotImplementedException();
+            if (date == null)
+                Currencies = new ObservableCollection<Currency>(await NbpApiRequests.GetActualRates());
+            else
+                Currencies = new ObservableCollection<Currency>(await NbpApiRequests.GetRatesForDate(date ?? DateTimeOffset.Now));
         }
 
         public void OnNavigateTo(object parameter = null)

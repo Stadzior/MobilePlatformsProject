@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using MobilePlatformsProject.Converters.Json;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +26,7 @@ namespace MobilePlatformsProject.Rest
             var content = new FormUrlEncodedContent(nameValueCollection ?? new List<KeyValuePair<string, string>>());
             try
             {
-                var result = Client.PostAsync(requestUri, content).Result;
+                var result = Client.PostAsync($"{requestUri}?format=json", content).Result;
             }
             catch (Exception)
             {
@@ -33,13 +34,14 @@ namespace MobilePlatformsProject.Rest
             }
         }
 
-        public async Task<T> PostAsync<T>(string requestUri, IEnumerable<KeyValuePair<string, string>> nameValueCollection = null)
+        public async Task<T> PostAsync<T>(string requestUri, IEnumerable<KeyValuePair<string, string>> nameValueCollection = null, JsonConverter converter = null)
         {
             T result = default(T);
             try
             { 
-                string jsonResponse = await PostStringAsync(requestUri, nameValueCollection);
-                result = JsonConvert.DeserializeObject<T>(jsonResponse);
+                string jsonResponse = await PostStringAsync($"{requestUri}?format=json", nameValueCollection);
+                result = converter != null ?
+                    JsonConvert.DeserializeObject<T>(jsonResponse, converter) : JsonConvert.DeserializeObject<T>(jsonResponse);
             }
             catch (Exception)
             {
@@ -48,13 +50,14 @@ namespace MobilePlatformsProject.Rest
             return result;
         }
 
-        public async Task<T> GetAsync<T>(string requestUri)
+        public async Task<T> GetAsync<T>(string requestUri, JsonConverter converter = null)
         {
             T result = default(T);
             try
             {
-                string jsonResponse = await GetStringAsync(requestUri);
-                result = JsonConvert.DeserializeObject<T>(jsonResponse);
+                string jsonResponse = await GetStringAsync($"{requestUri}?format=json");
+                result = converter != null ?
+                    JsonConvert.DeserializeObject<T>(jsonResponse, converter) : JsonConvert.DeserializeObject<T>(jsonResponse);
             }
             catch (Exception)
             {
