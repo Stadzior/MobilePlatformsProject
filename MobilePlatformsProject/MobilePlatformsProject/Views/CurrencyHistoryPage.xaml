@@ -24,6 +24,9 @@
             <core:EventTriggerBehavior EventName="ManipulationCompleted">
                 <core:InvokeCommandAction Command="{Binding ManipulationCompletedCommand}" />
             </core:EventTriggerBehavior>
+            <core:EventTriggerBehavior EventName="Loaded">
+                <core:InvokeCommandAction Command="{Binding LoadedCommand}" />
+            </core:EventTriggerBehavior>
         </i:Interaction.Behaviors>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />

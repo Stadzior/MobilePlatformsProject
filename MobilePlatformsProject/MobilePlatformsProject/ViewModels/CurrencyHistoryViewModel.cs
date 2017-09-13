@@ -3,18 +3,20 @@ using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Views;
 using MobilePlatformsProject.Interfaces;
 using MobilePlatformsProject.Models;
+using MobilePlatformsProject.Rest;
 using Syncfusion.UI.Xaml.Charts;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 
 namespace MobilePlatformsProject.ViewModels
 {
-    public class CurrencyHistoryViewModel : ViewModelBase, IRegisterCommands, INavigatableViewModel
+    public class CurrencyHistoryViewModel : ViewModelBase, IRegisterCommands, INavigatableViewModel, ILoadable
     {
         private INavigationService _navigationService;
 
@@ -27,6 +29,17 @@ namespace MobilePlatformsProject.ViewModels
                 _dateFrom = value;
                 Set(() => DateFrom, ref _dateFrom, value);
                 Windows.Storage.ApplicationData.Current.LocalSettings.Values["CurrencyHistoryDateFrom"] = DateFrom;
+            }
+        }
+
+        private bool _isLoading;
+        public bool IsLoading
+        {
+            get => _isLoading;
+            set
+            {
+                _isLoading = value;
+                Set(() => IsLoading, ref _isLoading, value);
             }
         }
 
@@ -53,13 +66,13 @@ namespace MobilePlatformsProject.ViewModels
         public ICommand DateFromChangedCommand { get; set; }
         public ICommand DateToChangedCommand { get; set; }
         public ICommand SaveCommand { get; set; }
+        public ICommand LoadedCommand { get; set; }
 
         private Windows.Foundation.Point _fingerPosition;
 
         public CurrencyHistoryViewModel(INavigationService navigationService)
         {
             _navigationService = navigationService;
-
             RegisterCommands();
         }
 
@@ -83,6 +96,27 @@ namespace MobilePlatformsProject.ViewModels
             {
                 chart.Save("dummy.jpg", Windows.ApplicationModel.Package.Current.InstalledLocation);
             });
+            LoadedCommand = new RelayCommand(async () => await DownloadDataAsync(SelectedCurrencies, DateFrom, DateTo));
+        }
+
+        private async Task DownloadDataAsync(IEnumerable<Currency> selectedCurrencies, DateTimeOffset? dateFrom, DateTimeOffset? dateTo)
+        {
+
+            IsLoading = true;
+
+            foreach (var currency in selectedCurrencies)
+            {
+                List<Rate> grabbedRates = await NbpApiRequests.GetRatesForCurrency(currency.Code, DateTimeOffset.Now.AddDays(-10), DateTimeOffset.Now); //TODO change hardcoded dates.
+                if (currency.Rates == null)
+                    currency.Rates = new ObservableCollection<Rate>();
+                else
+                    currency.Rates.Clear();
+
+                foreach (var rate in grabbedRates)
+                    currency.Rates.Add(rate);
+            }
+
+            IsLoading = false;
         }
 
         public void OnNavigateTo(object parameter = null)

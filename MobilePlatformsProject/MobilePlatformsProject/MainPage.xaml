@@ -79,7 +79,8 @@
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
-                            <RowDefinition Height="10*" />
+                            <RowDefinition Height="8*" />
+                            <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <TextBlock
                             Grid.Row="0"
@@ -124,6 +125,13 @@
                                 </core:EventTriggerBehavior>
                             </i:Interaction.Behaviors>
                         </GridView>
+                        <ProgressRing
+                            Grid.Row="2"
+                            Grid.Column="0"
+                            Width="50"
+                            Height="50"
+                            IsActive="{Binding IsLoading, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            Visibility="Visible" />
                     </Grid>
                 </ScrollViewer>
             </SplitView.Content>
