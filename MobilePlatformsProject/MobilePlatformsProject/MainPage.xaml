@@ -2,6 +2,7 @@
     x:Class="MobilePlatformsProject.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="using:MobilePlatformsProject.Converters"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
@@ -9,6 +10,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     DataContext="{Binding MainPageViewModel, Source={StaticResource ResourceKey=Locator}}"
     mc:Ignorable="d">
+    <Page.Resources>
+        <ResourceDictionary>
+            <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        </ResourceDictionary>
+    </Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -69,52 +75,57 @@
             DisplayMode="Overlay"
             PanePlacement="Left">
             <SplitView.Content>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="10*" />
-                    </Grid.RowDefinitions>
-                    <TextBlock
-                        Grid.Row="0"
-                        Grid.Column="0"
-                        Margin="30,0,0,0"
-                        FontSize="30"
-                        Text="Średnie kursy walut:" />
-                    <GridView
-                        x:Name="GridCurrencies"
-                        Grid.Row="1"
-                        Grid.Column="0"
-                        Margin="30"
-                        IsItemClickEnabled="True"
-                        IsSwipeEnabled="true"
-                        ItemsSource="{Binding Currencies}"
-                        SelectionMode="Multiple">
-                        <GridView.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <WrapGrid Orientation="Vertical" />
-                            </ItemsPanelTemplate>
-                        </GridView.ItemsPanel>
-                        <GridView.ItemTemplate>
-                            <DataTemplate>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="150" />
-                                        <ColumnDefinition Width="100" />
-                                        <ColumnDefinition Width="100" />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0" Text="{Binding Name}" />
-                                    <TextBlock Grid.Column="1" Text="{Binding Code}" />
-                                    <TextBlock Grid.Column="2" Text="{Binding ExchangeRate}" />
-                                </Grid>
-                            </DataTemplate>
-                        </GridView.ItemTemplate>
-                        <i:Interaction.Behaviors>
-                            <core:EventTriggerBehavior EventName="SelectionChanged">
-                                <core:InvokeCommandAction Command="{Binding SelectedCurrenciesChangedCommand}" />
-                            </core:EventTriggerBehavior>
-                        </i:Interaction.Behaviors>
-                    </GridView>
-                </Grid>
+                <ScrollViewer>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="10*" />
+                        </Grid.RowDefinitions>
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Margin="30,0,0,0"
+                            FontSize="30"
+                            Text="Średnie kursy walut:" />
+                        <GridView
+                            x:Name="GridCurrencies"
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Margin="30"
+                            IsItemClickEnabled="True"
+                            IsSwipeEnabled="true"
+                            ItemsSource="{Binding Currencies}"
+                            SelectionMode="Multiple">
+                            <GridView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapGrid MaximumRowsOrColumns="3" Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </GridView.ItemsPanel>
+                            <GridView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="200" />
+                                            <ColumnDefinition Width="100" />
+                                            <ColumnDefinition Width="100" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock
+                                            Grid.Column="0"
+                                            Margin="50,0,0,0"
+                                            Text="{Binding Name}" />
+                                        <TextBlock Grid.Column="1" Text="{Binding Code}" />
+                                        <TextBlock Grid.Column="2" Text="{Binding ExchangeRate}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </GridView.ItemTemplate>
+                            <i:Interaction.Behaviors>
+                                <core:EventTriggerBehavior EventName="SelectionChanged">
+                                    <core:InvokeCommandAction Command="{Binding SelectedCurrenciesChangedCommand}" />
+                                </core:EventTriggerBehavior>
+                            </i:Interaction.Behaviors>
+                        </GridView>
+                    </Grid>
+                </ScrollViewer>
             </SplitView.Content>
             <SplitView.Pane>
                 <ListView

@@ -18,7 +18,7 @@ namespace MobilePlatformsProject.Converters
                 var targetStringBuilder = new StringBuilder();
                 foreach (var item in sourceList)
                 {
-                    targetStringBuilder.Append(item.Name).Append(separator);
+                    targetStringBuilder.Append(item.Code).Append(separator);
                 }
 
                 targetStringBuilder.Remove(targetStringBuilder.Length - 1, 1);

@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using MobilePlatformsProject.Models;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -15,11 +16,11 @@ namespace MobilePlatformsProject.Converters.Json.Base
         /// Create an instance of objectType, based properties in the JSON object
         /// </summary>
         /// <param name="objectType">type of object expected</param>
-        /// <param name="jObject">
+        /// <param name="jToken">
         /// contents of JSON object that will be deserialized
         /// </param>
         /// <returns></returns>
-        protected abstract T Create(Type objectType, JObject jObject);
+        protected abstract T Create(Type objectType, JToken jToken);
 
         public override bool CanConvert(Type objectType)
         {
@@ -36,14 +37,16 @@ namespace MobilePlatformsProject.Converters.Json.Base
                                          object existingValue,
                                          JsonSerializer serializer)
         {
+            if (objectType != typeof(T))
+                return null;
             // Load JObject from stream
-            JObject jObject = JObject.Load(reader);
+            JToken jToken = JToken.Load(reader);
 
             // Create target object based on JObject
-            T target = Create(objectType, jObject);
+            T target = Create(objectType, jToken);
 
             // Populate the object properties
-            serializer.Populate(jObject.CreateReader(), target);
+            serializer.Populate(jToken.CreateReader(), target);
 
             return target;
         }

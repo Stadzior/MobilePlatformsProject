@@ -95,9 +95,11 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\CurrenciesToStringConverter.cs" />
     <Compile Include="Converters\Json\Base\JsonCreationConverter.cs" />
     <Compile Include="Converters\Json\CurrenciesConverter.cs" />
+    <Compile Include="Interfaces\ILoadable.cs" />
     <Compile Include="JsonExtensions.cs" />
     <Compile Include="Interfaces\IMessenger.cs" />
     <Compile Include="Interfaces\INavigatableViewModel.cs" />

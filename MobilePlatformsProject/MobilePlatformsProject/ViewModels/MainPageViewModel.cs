@@ -19,7 +19,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace MobilePlatformsProject.ViewModels
 {
-    public class MainPageViewModel : ViewModelBase, IRegisterCommands, INavigatableViewModel
+    public class MainPageViewModel : ViewModelBase, IRegisterCommands, INavigatableViewModel, ILoadable
     {
         private CancellationTokenSource _tokenSource = new CancellationTokenSource();
         private readonly INavigationService _navigationService;
@@ -51,6 +51,17 @@ namespace MobilePlatformsProject.ViewModels
             }
         }
 
+        private bool _isLoading;
+        public bool IsLoading
+        {
+            get => _isLoading;
+            set
+            {
+                _isLoading = value;
+                Set(() => IsLoading, ref _isLoading, value);
+            }
+        }
+
         public DateTimeOffset MaxDateTimeOffset => DateTimeOffset.Now;
         public DateTimeOffset MinDateTimeOffset => DateTimeOffset.Parse("2002-02-02");
 
@@ -74,13 +85,7 @@ namespace MobilePlatformsProject.ViewModels
                 .Select(f => f.Replace(@"\", ""))
                 );
 
-            Currencies = new ObservableCollection<Currency>
-            {
-                new Currency() { Name = "Dolar amerykański", Code = "USD", ExchangeRate = 3.7241 },
-                new Currency() { Name = "Dolar kanadyjski", Code = "CAD", ExchangeRate = 2.7703 },
-                new Currency() { Name = "euro", Code = "EUR", ExchangeRate = 4.1943 },
-                new Currency() { Name = "forint ", Code = "HUF", ExchangeRate = 0.013593 }
-            };
+            Currencies = new ObservableCollection<Currency>();
 
             RegisterCommands();
 
@@ -150,10 +155,22 @@ namespace MobilePlatformsProject.ViewModels
 
         private async Task DownloadDataAsync(DateTimeOffset? date)
         {
+            List<Currency> grabbedCurrencies;
+
+            IsLoading = true;
+
+            await Task.Delay(3000);
+
             if (date == null)
-                Currencies = new ObservableCollection<Currency>(await NbpApiRequests.GetActualRates());
+                grabbedCurrencies = await NbpApiRequests.GetActualRates();
             else
-                Currencies = new ObservableCollection<Currency>(await NbpApiRequests.GetRatesForDate(date ?? DateTimeOffset.Now));
+                grabbedCurrencies = await NbpApiRequests.GetRatesForDate(date ?? DateTimeOffset.Now);
+
+            IsLoading = false;
+
+            Currencies.Clear();
+            foreach (var currency in grabbedCurrencies.Where(x => x != null))
+                Currencies.Add(currency);
         }
 
         public void OnNavigateTo(object parameter = null)

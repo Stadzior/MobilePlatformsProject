@@ -10,10 +10,10 @@ namespace MobilePlatformsProject.Rest
     {
         private static RequestHelper _requestHelper = new RequestHelper("http://api.nbp.pl");
 
-        public static async Task<IEnumerable<Currency>> GetActualRates()
-            => await _requestHelper.GetAsync<IEnumerable<Currency>>("/api/exchangerates/tables/A/", new CurrenciesConverter());
+        public static async Task<List<Currency>> GetActualRates()
+            => await _requestHelper.GetAsync<List<Currency>>("/api/exchangerates/tables/A/", new CurrenciesConverter());
 
-        public static async Task<IEnumerable<Currency>> GetRatesForDate(DateTimeOffset date)
-            => await _requestHelper.GetAsync<IEnumerable<Currency>>($"/api/exchangerates/tables/A/{date.ToString("yyyy-MM-dd")}/", new CurrenciesConverter());
+        public static async Task<List<Currency>> GetRatesForDate(DateTimeOffset date)
+            => await _requestHelper.GetAsync<List<Currency>>($"/api/exchangerates/tables/A/{date.ToString("yyyy-MM-dd")}/", new CurrenciesConverter());
     }
 }
