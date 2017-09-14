@@ -66,25 +66,13 @@
                         Margin="0,0,15,0"
                         Header="Data początkowa:"
                         MaxDate="{Binding DateTo}"
-                        MinDate="{Binding MinDateTimeOffset}">
-                        <i:Interaction.Behaviors>
-                            <core:EventTriggerBehavior EventName="DateChanged">
-                                <core:InvokeCommandAction Command="{Binding DateFromChangedCommand}" />
-                            </core:EventTriggerBehavior>
-                        </i:Interaction.Behaviors>
-                    </CalendarDatePicker>
+                        MinDate="{Binding MinDateTimeOffset}" />
                     <CalendarDatePicker
                         x:Name="dateToPicker"
                         Grid.Column="1"
                         Header="Data końcowa:"
                         MaxDate="{Binding MaxDateTimeOffset}"
-                        MinDate="{Binding DateFrom}">
-                        <i:Interaction.Behaviors>
-                            <core:EventTriggerBehavior EventName="DateChanged">
-                                <core:InvokeCommandAction Command="{Binding DateToChangedCommand}" />
-                            </core:EventTriggerBehavior>
-                        </i:Interaction.Behaviors>
-                    </CalendarDatePicker>
+                        MinDate="{Binding DateFrom}" />
                 </Grid>
             </CommandBar.Content>
         </CommandBar>
@@ -108,6 +96,12 @@
             <syncfusion:SfChart.SecondaryAxis>
                 <syncfusion:NumericalAxis Header="Kurs" />
             </syncfusion:SfChart.SecondaryAxis>
+            <syncfusion:SfChart.Series>
+                <syncfusion:LineSeries
+                    ItemsSource="{Binding SelectedCurrencies}"
+                    XBindingPath="Date"
+                    YBindingPath="Value" />
+            </syncfusion:SfChart.Series>
         </syncfusion:SfChart>
     </Grid>
 </Page>

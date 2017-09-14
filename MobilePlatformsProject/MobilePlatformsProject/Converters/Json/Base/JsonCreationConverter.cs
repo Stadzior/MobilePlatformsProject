@@ -39,6 +39,7 @@ namespace MobilePlatformsProject.Converters.Json.Base
         {
             if (objectType != typeof(T))
                 return null;
+
             // Load JObject from stream
             JToken jToken = JToken.Load(reader);
 

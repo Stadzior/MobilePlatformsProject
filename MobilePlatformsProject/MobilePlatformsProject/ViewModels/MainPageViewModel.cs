@@ -153,7 +153,6 @@ namespace MobilePlatformsProject.ViewModels
 
             IsLoading = true;
 
-            await Task.Delay(3000);
             if (date == null)
                 grabbedCurrencies = await NbpApiRequests.GetActualRates();
             else

@@ -8,6 +8,7 @@ using Syncfusion.UI.Xaml.Charts;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -23,10 +24,9 @@ namespace MobilePlatformsProject.ViewModels
         private DateTimeOffset? _dateFrom;
         public DateTimeOffset? DateFrom
         {
-            get => _dateFrom ?? MinDateTimeOffset;
+            get => _dateFrom;
             set
             {
-                _dateFrom = value;
                 Set(() => DateFrom, ref _dateFrom, value);
                 Windows.Storage.ApplicationData.Current.LocalSettings.Values["CurrencyHistoryDateFrom"] = DateFrom;
             }
@@ -36,20 +36,15 @@ namespace MobilePlatformsProject.ViewModels
         public bool IsLoading
         {
             get => _isLoading;
-            set
-            {
-                _isLoading = value;
-                Set(() => IsLoading, ref _isLoading, value);
-            }
+            set => Set(() => IsLoading, ref _isLoading, value);
         }
 
         private DateTimeOffset? _dateTo;
         public DateTimeOffset? DateTo
         {
-            get => _dateTo ?? MaxDateTimeOffset;
+            get => _dateTo;
             set
             {
-                _dateTo = value;
                 Set(() => DateTo, ref _dateTo, value);
                 Windows.Storage.ApplicationData.Current.LocalSettings.Values["CurrencyHistoryDateTo"] = DateTo;
             }
@@ -87,7 +82,7 @@ namespace MobilePlatformsProject.ViewModels
             ManipulationCompletedCommand = new RelayCommand<ManipulationCompletedRoutedEventArgs>(e =>
             {
                 //if (_fingerPosition.X < e.Position.X)
-                    //causes win32 unhandled exception _navigationService.NavigateTo("MainPage");
+                //causes win32 unhandled exception _navigationService.NavigateTo("MainPage");
             });
 
             DateFromChangedCommand = new RelayCommand<CalendarDatePickerDateChangedEventArgs>(e => DateFrom = e.NewDate);
@@ -96,23 +91,28 @@ namespace MobilePlatformsProject.ViewModels
             {
                 chart.Save("dummy.jpg", Windows.ApplicationModel.Package.Current.InstalledLocation);
             });
-            LoadedCommand = new RelayCommand(async () => await DownloadDataAsync(SelectedCurrencies, DateFrom, DateTo));
+            LoadedCommand = new RelayCommand(async () =>
+            {
+                await DownloadDataAsync(SelectedCurrencies, DateFrom, DateTo);
+                
+            });
         }
 
         private async Task DownloadDataAsync(IEnumerable<Currency> selectedCurrencies, DateTimeOffset? dateFrom, DateTimeOffset? dateTo)
         {
-
             IsLoading = true;
 
             foreach (var currency in selectedCurrencies)
             {
-                List<Rate> grabbedRates = await NbpApiRequests.GetRatesForCurrency(currency.Code, DateTimeOffset.Now.AddDays(-10), DateTimeOffset.Now); //TODO change hardcoded dates.
+                List<Rate> grabbedRates = await NbpApiRequests.GetRatesForCurrency(currency.Code,
+                    DateFrom ?? (DateTo != null ? DateTo.Value.AddDays(-10) : MaxDateTimeOffset.AddDays(-10)),
+                    DateTo ?? (DateFrom != null ? DateFrom.Value.AddDays(10) : DateTimeOffset.Now));
                 if (currency.Rates == null)
                     currency.Rates = new ObservableCollection<Rate>();
                 else
                     currency.Rates.Clear();
 
-                foreach (var rate in grabbedRates)
+                foreach (var rate in grabbedRates.Where(x => x != null))
                     currency.Rates.Add(rate);
             }
 

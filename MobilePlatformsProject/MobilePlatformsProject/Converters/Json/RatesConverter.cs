@@ -24,7 +24,7 @@ namespace MobilePlatformsProject.Converters.Json
 
         protected override List<Rate> Create(Type objectType, JToken jToken)
         {
-            var ratesTokens = jToken.Value<JArray>("rates");
+            var ratesTokens = (JArray)jToken;
             var result = new List<Rate>();
             foreach (var token in ratesTokens)
             {
@@ -36,6 +36,23 @@ namespace MobilePlatformsProject.Converters.Json
             }
 
             return result;
+        }
+
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            if (objectType != typeof(List<Rate>))
+                return null;
+
+            // Load JObject from stream
+            JToken jToken = JToken.Load(reader).Value<JArray>("rates");
+
+            // Create target object based on JObject
+            List<Rate> target = Create(objectType, jToken);
+
+            // Populate the object properties
+            serializer.Populate(jToken.CreateReader(), target);
+
+            return target;
         }
     }
 }
