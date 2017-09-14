@@ -34,7 +34,6 @@ namespace MobilePlatformsProject.ViewModels
             get => _selectedFileName;
             set
             {
-                _selectedFileName = value;
                 Set(() => SelectedFileName, ref _selectedFileName, value);
             }
         }
@@ -45,7 +44,6 @@ namespace MobilePlatformsProject.ViewModels
             get => _date;
             set
             {
-                _date = value;
                 Set(() => Date, ref _date, value);
                 Windows.Storage.ApplicationData.Current.LocalSettings.Values["MainPageDate"] = Date;
             }
@@ -55,11 +53,7 @@ namespace MobilePlatformsProject.ViewModels
         public bool IsLoading
         {
             get => _isLoading;
-            set
-            {
-                _isLoading = value;
-                Set(() => IsLoading, ref _isLoading, value);
-            }
+            set => Set(() => IsLoading, ref _isLoading, value);
         }
 
         public DateTimeOffset MaxDateTimeOffset => DateTimeOffset.Now;
@@ -159,6 +153,7 @@ namespace MobilePlatformsProject.ViewModels
 
             IsLoading = true;
 
+            await Task.Delay(3000);
             if (date == null)
                 grabbedCurrencies = await NbpApiRequests.GetActualRates();
             else

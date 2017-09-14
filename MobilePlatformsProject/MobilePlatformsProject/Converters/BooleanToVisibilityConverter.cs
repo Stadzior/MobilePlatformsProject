@@ -12,14 +12,14 @@ namespace MobilePlatformsProject.Converters
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            var visible = (bool)value;
+            var visible = (bool)parameter ? (bool)value : !(bool)value;
             return visible ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
             var visibility = (Visibility)value;
-            return visibility == Visibility.Visible;
+            return (bool)parameter ? visibility == Visibility.Visible : visibility == Visibility.Collapsed;
         }
     }
 }

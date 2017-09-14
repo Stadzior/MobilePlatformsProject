@@ -2,7 +2,6 @@
     x:Class="MobilePlatformsProject.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:converters="using:MobilePlatformsProject.Converters"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
@@ -10,11 +9,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     DataContext="{Binding MainPageViewModel, Source={StaticResource ResourceKey=Locator}}"
     mc:Ignorable="d">
-    <Page.Resources>
-        <ResourceDictionary>
-            <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-        </ResourceDictionary>
-    </Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -96,7 +90,8 @@
                             IsItemClickEnabled="True"
                             IsSwipeEnabled="true"
                             ItemsSource="{Binding Currencies}"
-                            SelectionMode="Multiple">
+                            SelectionMode="Multiple"
+                            Visibility="{Binding IsLoading, Converter={StaticResource ResourceKey=BooleanToVisibilityConverter}, ConverterParameter={StaticResource ResourceKey=False}}">
                             <GridView.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <WrapGrid MaximumRowsOrColumns="3" Orientation="Horizontal" />
@@ -130,8 +125,8 @@
                             Grid.Column="0"
                             Width="50"
                             Height="50"
-                            IsActive="{Binding IsLoading, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                            Visibility="Visible" />
+                            IsActive="True"
+                            Visibility="{Binding IsLoading, Converter={StaticResource ResourceKey=BooleanToVisibilityConverter}, ConverterParameter={StaticResource ResourceKey=True}}" />
                     </Grid>
                 </ScrollViewer>
             </SplitView.Content>
