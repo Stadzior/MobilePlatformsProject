@@ -14,6 +14,7 @@
     <Page.Resources>
         <ResourceDictionary>
             <converters:CurrenciesToStringConverter x:Key="CurrenciesToStringConverter" />
+            <converters:CurrenciesToLineSeriesConverter x:Key="CurrenciesToLineSeriesConverter" />
         </ResourceDictionary>
     </Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" ManipulationMode="All">
@@ -32,6 +33,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
             <RowDefinition Height="8*" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <CommandBar
             Grid.Row="0"
@@ -88,20 +90,23 @@
             x:Name="chartCurrencyHistory"
             Grid.Row="2"
             Grid.Column="0"
-            Margin="15,15,30,15"
-            Background="White">
+            Margin="15,15,15,15"
+            Background="White"
+            Series="{Binding SelectedCurrencies, Converter={StaticResource ResourceKey=CurrenciesToLineSeriesConverter}}"
+            Visibility="{Binding IsLoading, Converter={StaticResource ResourceKey=BooleanToVisibilityConverter}, ConverterParameter={StaticResource ResourceKey=False}}">
             <syncfusion:SfChart.PrimaryAxis>
                 <syncfusion:DateTimeAxis Header="Czas" LabelFormat="MM/dd/yy" />
             </syncfusion:SfChart.PrimaryAxis>
             <syncfusion:SfChart.SecondaryAxis>
                 <syncfusion:NumericalAxis Header="Kurs" />
             </syncfusion:SfChart.SecondaryAxis>
-            <syncfusion:SfChart.Series>
-                <syncfusion:LineSeries
-                    ItemsSource="{Binding SelectedCurrencies}"
-                    XBindingPath="Date"
-                    YBindingPath="Value" />
-            </syncfusion:SfChart.Series>
         </syncfusion:SfChart>
+        <ProgressRing
+            Grid.Row="3"
+            Grid.Column="0"
+            Width="50"
+            Height="50"
+            IsActive="True"
+            Visibility="{Binding IsLoading, Converter={StaticResource ResourceKey=BooleanToVisibilityConverter}, ConverterParameter={StaticResource ResourceKey=True}}" />
     </Grid>
 </Page>

@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 
 namespace MobilePlatformsProject.ViewModels
 {
@@ -93,13 +94,13 @@ namespace MobilePlatformsProject.ViewModels
             });
             LoadedCommand = new RelayCommand(async () =>
             {
-                await DownloadDataAsync(SelectedCurrencies, DateFrom, DateTo);
-                
+                await DownloadDataAsync(SelectedCurrencies, DateFrom, DateTo);                
             });
         }
 
         private async Task DownloadDataAsync(IEnumerable<Currency> selectedCurrencies, DateTimeOffset? dateFrom, DateTimeOffset? dateTo)
         {
+
             IsLoading = true;
 
             foreach (var currency in selectedCurrencies)

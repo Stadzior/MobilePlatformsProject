@@ -96,6 +96,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Converters\CurrenciesToLineSeriesConverter.cs" />
     <Compile Include="Converters\CurrenciesToStringConverter.cs" />
     <Compile Include="Converters\Json\Base\JsonCreationConverter.cs" />
     <Compile Include="Converters\Json\CurrenciesConverter.cs" />

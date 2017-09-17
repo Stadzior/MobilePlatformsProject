@@ -128,6 +128,8 @@ namespace MobilePlatformsProject.ViewModels
             });
             SelectedCurrenciesChangedCommand = new RelayCommand<SelectionChangedEventArgs>(e =>
             {
+                const int maximumSelectionCount = 5; 
+
                 if (SelectedCurrencies == null)
                     SelectedCurrencies = new ObservableCollection<Currency>();
 
@@ -139,7 +141,7 @@ namespace MobilePlatformsProject.ViewModels
 
                 foreach (var item in e.AddedItems.Cast<Currency>())
                 {
-                    if (!SelectedCurrencies.Contains(item))
+                    if (!SelectedCurrencies.Contains(item) && SelectedCurrencies.Count < maximumSelectionCount)
                         SelectedCurrencies.Add(item);
                 }
             });
@@ -161,7 +163,7 @@ namespace MobilePlatformsProject.ViewModels
             IsLoading = false;
 
             Currencies.Clear();
-            foreach (var currency in grabbedCurrencies.Where(x => x != null))
+            foreach (var currency in grabbedCurrencies?.Where(x => x != null))
                 Currencies.Add(currency);
         }
 
