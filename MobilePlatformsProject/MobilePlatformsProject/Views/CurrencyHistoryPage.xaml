@@ -86,21 +86,20 @@
             <Run Text="Historia walut(y): " />
             <Run Text="{Binding SelectedCurrencies, Converter={StaticResource ResourceKey=CurrenciesToStringConverter}}" />
         </TextBlock>
-        <syncfusion:SfChart
-            x:Name="chartCurrencyHistory"
-            Grid.Row="2"
-            Grid.Column="0"
-            Margin="15,15,15,15"
-            Background="White"
-            Series="{Binding SelectedCurrencies, Converter={StaticResource ResourceKey=CurrenciesToLineSeriesConverter}}"
-            Visibility="{Binding IsLoading, Converter={StaticResource ResourceKey=BooleanToVisibilityConverter}, ConverterParameter={StaticResource ResourceKey=False}}">
-            <syncfusion:SfChart.PrimaryAxis>
-                <syncfusion:DateTimeAxis Header="Czas" LabelFormat="MM/dd/yy" />
-            </syncfusion:SfChart.PrimaryAxis>
-            <syncfusion:SfChart.SecondaryAxis>
-                <syncfusion:NumericalAxis Header="Kurs" />
-            </syncfusion:SfChart.SecondaryAxis>
-        </syncfusion:SfChart>
+        <Grid Grid.Row="2" Grid.Column="0">
+            <syncfusion:SfChart
+                x:Name="chartCurrencyHistory"
+                Margin="15,15,15,0"
+                Series="{Binding SelectedCurrencies, Converter={StaticResource ResourceKey=CurrenciesToLineSeriesConverter}}"
+                Visibility="{Binding IsLoading, Converter={StaticResource ResourceKey=BooleanToVisibilityConverter}, ConverterParameter={StaticResource ResourceKey=False}}">
+                <syncfusion:SfChart.PrimaryAxis>
+                    <syncfusion:DateTimeAxis Header="Czas" LabelFormat="MM/dd/yy" />
+                </syncfusion:SfChart.PrimaryAxis>
+                <syncfusion:SfChart.SecondaryAxis>
+                    <syncfusion:NumericalAxis Header="Kurs" />
+                </syncfusion:SfChart.SecondaryAxis>
+            </syncfusion:SfChart>
+        </Grid>
         <ProgressRing
             Grid.Row="3"
             Grid.Column="0"
