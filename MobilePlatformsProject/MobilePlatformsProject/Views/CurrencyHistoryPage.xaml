@@ -52,7 +52,7 @@
             <AppBarButton Icon="Save" Label="Zapisz">
                 <i:Interaction.Behaviors>
                     <core:EventTriggerBehavior EventName="Click">
-                        <core:InvokeCommandAction Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=chartCurrencyHistory}" />
+                        <core:InvokeCommandAction Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=chartGrid}" />
                     </core:EventTriggerBehavior>
                 </i:Interaction.Behaviors>
             </AppBarButton>
@@ -86,10 +86,14 @@
             <Run Text="Historia walut(y): " />
             <Run Text="{Binding SelectedCurrencies, Converter={StaticResource ResourceKey=CurrenciesToStringConverter}}" />
         </TextBlock>
-        <Grid Grid.Row="2" Grid.Column="0">
+        <Grid
+            x:Name="chartGrid"
+            Grid.Row="2"
+            Grid.Column="0">
             <syncfusion:SfChart
                 x:Name="chartCurrencyHistory"
                 Margin="15,15,15,0"
+                Background="White"
                 Series="{Binding SelectedCurrencies, Converter={StaticResource ResourceKey=CurrenciesToLineSeriesConverter}}"
                 Visibility="{Binding IsLoading, Converter={StaticResource ResourceKey=BooleanToVisibilityConverter}, ConverterParameter={StaticResource ResourceKey=False}}">
                 <syncfusion:SfChart.PrimaryAxis>

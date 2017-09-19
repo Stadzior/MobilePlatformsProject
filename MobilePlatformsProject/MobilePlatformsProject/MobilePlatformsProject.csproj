@@ -101,8 +101,8 @@
     <Compile Include="Converters\Json\Base\JsonCreationConverter.cs" />
     <Compile Include="Converters\Json\CurrenciesConverter.cs" />
     <Compile Include="Converters\Json\RatesConverter.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="Interfaces\ILoadable.cs" />
-    <Compile Include="JsonExtensions.cs" />
     <Compile Include="Interfaces\IMessenger.cs" />
     <Compile Include="Interfaces\INavigatableViewModel.cs" />
     <Compile Include="Interfaces\IRegisterCommands.cs" />

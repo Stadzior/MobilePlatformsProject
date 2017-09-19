@@ -12,6 +12,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
@@ -88,9 +89,9 @@ namespace MobilePlatformsProject.ViewModels
 
             DateFromChangedCommand = new RelayCommand<CalendarDatePickerDateChangedEventArgs>(e => DateFrom = e.NewDate);
             DateToChangedCommand = new RelayCommand<CalendarDatePickerDateChangedEventArgs>(e => DateTo = e.NewDate);
-            SaveCommand = new RelayCommand<SfChart>(chart =>
+            SaveCommand = new RelayCommand<UIElement>(async element =>
             {
-                chart.Save("dummy.jpg", Windows.ApplicationModel.Package.Current.InstalledLocation);
+                await element.Save();
             });
             LoadedCommand = new RelayCommand(async () =>
             {
