@@ -89,11 +89,11 @@
         <Grid
             x:Name="chartGrid"
             Grid.Row="2"
-            Grid.Column="0">
+            Grid.Column="0"
+            Background="White">
             <syncfusion:SfChart
                 x:Name="chartCurrencyHistory"
                 Margin="15,15,15,0"
-                Background="White"
                 Series="{Binding SelectedCurrencies, Converter={StaticResource ResourceKey=CurrenciesToLineSeriesConverter}}"
                 Visibility="{Binding IsLoading, Converter={StaticResource ResourceKey=BooleanToVisibilityConverter}, ConverterParameter={StaticResource ResourceKey=False}}">
                 <syncfusion:SfChart.PrimaryAxis>

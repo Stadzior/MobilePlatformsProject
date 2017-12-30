@@ -12,6 +12,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -104,18 +105,29 @@ namespace MobilePlatformsProject.ViewModels
 
             IsLoading = true;
 
-            foreach (var currency in selectedCurrencies)
-            {
-                List<Rate> grabbedRates = await NbpApiRequests.GetRatesForCurrency(currency.Code,
-                    DateFrom ?? (DateTo != null ? DateTo.Value.AddDays(-10) : MaxDateTimeOffset.AddDays(-10)),
-                    DateTo ?? (DateFrom != null ? DateFrom.Value.AddDays(10) : DateTimeOffset.Now));
-                if (currency.Rates == null)
-                    currency.Rates = new ObservableCollection<Rate>();
-                else
-                    currency.Rates.Clear();
+            try
+            { 
+                foreach (var currency in selectedCurrencies)
+                {
+                    List<Rate> grabbedRates = await NbpApiRequests.GetRatesForCurrency(currency.Code,
+                        DateFrom ?? (DateTo != null ? DateTo.Value.AddDays(-10) : MaxDateTimeOffset.AddDays(-10)),
+                        DateTo ?? (DateFrom != null ? DateFrom.Value.AddDays(10) : DateTimeOffset.Now));
+                    if (currency.Rates == null)
+                        currency.Rates = new ObservableCollection<Rate>();
+                    else
+                        currency.Rates.Clear();
 
-                foreach (var rate in grabbedRates.Where(x => x != null))
-                    currency.Rates.Add(rate);
+                    foreach (var rate in grabbedRates.Where(x => x != null))
+                        currency.Rates.Add(rate);
+                }
+            }   
+            catch (ArgumentException e)
+            {
+                await new MessageDialog(e.Message).ShowAsync();
+            }
+            catch (Exception e)
+            {
+                await new MessageDialog("Error occured while getting data.").ShowAsync();
             }
 
             IsLoading = false;

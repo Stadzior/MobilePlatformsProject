@@ -24,74 +24,41 @@ namespace MobilePlatformsProject.Rest
         public async void PostAsync(string requestUri, IEnumerable<KeyValuePair<string, string>> nameValueCollection = null)
         {
             var content = new FormUrlEncodedContent(nameValueCollection ?? new List<KeyValuePair<string, string>>());
-            try
-            {
-                var result = Client.PostAsync($"{requestUri}?format=json", content).Result;
-            }
-            catch (Exception)
-            {
-                await new MessageDialog("Error occured while sending data.").ShowAsync();
-            }
+            await Client.PostAsync($"{requestUri}?format=json", content);
         }
 
         public async Task<T> PostAsync<T>(string requestUri, IEnumerable<KeyValuePair<string, string>> nameValueCollection = null, JsonConverter converter = null)
         {
             T result = default(T);
-            try
-            { 
-                string jsonResponse = await PostStringAsync($"{requestUri}?format=json", nameValueCollection);
-                result = converter != null ?
-                    JsonConvert.DeserializeObject<T>(jsonResponse, converter) : JsonConvert.DeserializeObject<T>(jsonResponse);
-            }
-            catch (Exception)
-            {
-                await new MessageDialog("Error occured while sending data.").ShowAsync();
-            }
+            string jsonResponse = await PostStringAsync($"{requestUri}?format=json", nameValueCollection);
+            result = converter != null ?
+                JsonConvert.DeserializeObject<T>(jsonResponse, converter) : JsonConvert.DeserializeObject<T>(jsonResponse);
             return result;
         }
 
         public async Task<T> GetAsync<T>(string requestUri, JsonConverter converter = null)
         {
             T result = default(T);
-            try
-            {
-                string jsonResponse = await GetStringAsync($"{requestUri}?format=json");
-                result = converter != null ?
-                    JsonConvert.DeserializeObject<T>(jsonResponse, converter) : JsonConvert.DeserializeObject<T>(jsonResponse);
-            }
-            catch (Exception)
-            {
-                await new MessageDialog("Error occured while getting data.").ShowAsync();
-            }
+            string jsonResponse = await GetStringAsync($"{requestUri}?format=json");
+            result = converter != null ?
+                JsonConvert.DeserializeObject<T>(jsonResponse, converter) : JsonConvert.DeserializeObject<T>(jsonResponse);
             return result;
         }
 
         public async Task<string> GetStringAsync(string requestUri)
         {
-            string response = null;
-            try
-            {
-                response = await Client.GetAsync(requestUri).Result.Content.ReadAsStringAsync();
-            }
-            catch (Exception)
-            {
-                await new MessageDialog("Error occured while getting data.").ShowAsync();
-            }
-            return response;
+            HttpResponseMessage response = null;
+            response = await Client.GetAsync(requestUri);
+            if (!response.IsSuccessStatusCode)
+                throw new ArgumentException(await response.Content.ReadAsStringAsync());
+            return await response.Content.ReadAsStringAsync();
         }
 
         public async Task<string> PostStringAsync(string requestUri, IEnumerable<KeyValuePair<string, string>> nameValueCollection = null)
         {
             string response = null;
             var content = new FormUrlEncodedContent(nameValueCollection ?? new List<KeyValuePair<string, string>>());
-            try
-            {
                 response = await Client.PostAsync(requestUri, content).Result.Content.ReadAsStringAsync();
-            }
-            catch (Exception)
-            {
-                await new MessageDialog("Error occured while sending data.").ShowAsync();
-            }
             return response;
         }
 

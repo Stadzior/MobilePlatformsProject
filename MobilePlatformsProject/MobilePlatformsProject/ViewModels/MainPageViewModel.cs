@@ -14,6 +14,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -152,19 +153,28 @@ namespace MobilePlatformsProject.ViewModels
         private async Task DownloadDataAsync(DateTimeOffset? date)
         {
             List<Currency> grabbedCurrencies;
-
             IsLoading = true;
+            try
+            {
+                if (date == null)
+                    grabbedCurrencies = await NbpApiRequests.GetActualRates();
+                else
+                    grabbedCurrencies = await NbpApiRequests.GetRatesForDate(date ?? DateTimeOffset.Now);
 
-            if (date == null)
-                grabbedCurrencies = await NbpApiRequests.GetActualRates();
-            else
-                grabbedCurrencies = await NbpApiRequests.GetRatesForDate(date ?? DateTimeOffset.Now);
+                Currencies.Clear();
+                foreach (var currency in grabbedCurrencies?.Where(x => x != null))
+                    Currencies.Add(currency);
+            }
+            catch (ArgumentException e)
+            {
+                await new MessageDialog(e.Message).ShowAsync();
+            }
+            catch (Exception)
+            {
+                await new MessageDialog("Error occured while getting data.").ShowAsync();
+            }
 
             IsLoading = false;
-
-            Currencies.Clear();
-            foreach (var currency in grabbedCurrencies?.Where(x => x != null))
-                Currencies.Add(currency);
         }
 
         public void OnNavigateTo(object parameter = null)
