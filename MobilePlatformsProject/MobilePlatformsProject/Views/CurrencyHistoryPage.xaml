@@ -6,7 +6,6 @@
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
-    xmlns:local="using:MobilePlatformsProject.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:syncfusion="using:Syncfusion.UI.Xaml.Charts"
     DataContext="{Binding CurrencyHistoryViewModel, Source={StaticResource ResourceKey=Locator}}"
@@ -24,9 +23,6 @@
             </core:EventTriggerBehavior>
             <core:EventTriggerBehavior EventName="ManipulationCompleted">
                 <core:InvokeCommandAction Command="{Binding ManipulationCompletedCommand}" />
-            </core:EventTriggerBehavior>
-            <core:EventTriggerBehavior EventName="Loaded">
-                <core:InvokeCommandAction Command="{Binding LoadedCommand}" />
             </core:EventTriggerBehavior>
         </i:Interaction.Behaviors>
         <Grid.RowDefinitions>
@@ -56,6 +52,13 @@
                     </core:EventTriggerBehavior>
                 </i:Interaction.Behaviors>
             </AppBarButton>
+            <AppBarButton Icon="Refresh" Label="Odśwież">
+                <i:Interaction.Behaviors>
+                    <core:EventTriggerBehavior EventName="Click">
+                        <core:InvokeCommandAction Command="{Binding RefreshCommmand}" />
+                    </core:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
+            </AppBarButton>
             <CommandBar.Content>
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -68,13 +71,25 @@
                         Margin="0,0,15,0"
                         Header="Data początkowa:"
                         MaxDate="{Binding DateTo}"
-                        MinDate="{Binding MinDateTimeOffset}" />
+                        MinDate="{Binding MinDateTimeOffset}">
+                        <i:Interaction.Behaviors>
+                            <core:EventTriggerBehavior EventName="DateChanged">
+                                <core:InvokeCommandAction Command="{Binding DateFromChangedCommand}" />
+                            </core:EventTriggerBehavior>
+                        </i:Interaction.Behaviors>
+                    </CalendarDatePicker>
                     <CalendarDatePicker
                         x:Name="dateToPicker"
                         Grid.Column="1"
                         Header="Data końcowa:"
                         MaxDate="{Binding MaxDateTimeOffset}"
-                        MinDate="{Binding DateFrom}" />
+                        MinDate="{Binding DateFrom}">
+                        <i:Interaction.Behaviors>
+                            <core:EventTriggerBehavior EventName="DateChanged">
+                                <core:InvokeCommandAction Command="{Binding DateToChangedCommand}" />
+                            </core:EventTriggerBehavior>
+                        </i:Interaction.Behaviors>
+                    </CalendarDatePicker>
                 </Grid>
             </CommandBar.Content>
         </CommandBar>

@@ -32,6 +32,10 @@ namespace MobilePlatformsProject.ViewModels
             {
                 Set(() => DateFrom, ref _dateFrom, value);
                 Windows.Storage.ApplicationData.Current.LocalSettings.Values["CurrencyHistoryDateFrom"] = DateFrom;
+                Task.Factory.StartNew(async () =>
+                {
+                    await DownloadDataAsync(SelectedCurrencies, DateFrom, DateTo);
+                });
             }
         }
 
@@ -50,6 +54,10 @@ namespace MobilePlatformsProject.ViewModels
             {
                 Set(() => DateTo, ref _dateTo, value);
                 Windows.Storage.ApplicationData.Current.LocalSettings.Values["CurrencyHistoryDateTo"] = DateTo;
+                Task.Factory.StartNew(async () =>
+                {
+                    await DownloadDataAsync(SelectedCurrencies, DateFrom, DateTo);
+                });
             }
         }
 
@@ -64,7 +72,7 @@ namespace MobilePlatformsProject.ViewModels
         public ICommand DateFromChangedCommand { get; set; }
         public ICommand DateToChangedCommand { get; set; }
         public ICommand SaveCommand { get; set; }
-        public ICommand LoadedCommand { get; set; }
+        public ICommand RefreshCommand { get; set; }
 
         private Windows.Foundation.Point _fingerPosition;
 
@@ -94,7 +102,7 @@ namespace MobilePlatformsProject.ViewModels
             {
                 await element.Save();
             });
-            LoadedCommand = new RelayCommand(async () =>
+            RefreshCommand = new RelayCommand(async () =>
             {
                 await DownloadDataAsync(SelectedCurrencies, DateFrom, DateTo);                
             });
