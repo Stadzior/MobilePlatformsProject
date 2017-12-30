@@ -16,15 +16,25 @@ namespace MobilePlatformsProject.Converters
         {
             IEnumerable<Currency> currencies = (IEnumerable<Currency>)value;
             var result = new ChartSeriesCollection();
+            var randomizer = new Random();
             foreach (var currency in currencies)
             {
+                var randomColorCoords = new[] { System.Convert.ToByte(randomizer.Next(0, 255)), System.Convert.ToByte(randomizer.Next(0, 255)), System.Convert.ToByte(randomizer.Next(0, 255)) };
+                var randomColor = new Windows.UI.Color
+                {
+                    A = 0xFF,
+                    R = randomColorCoords[0],
+                    G = randomColorCoords[1],
+                    B = randomColorCoords[2]
+                };
+
                 result.Add(new LineSeries
                 {
                     ItemsSource = currency.Rates,
                     XBindingPath = "Date",
                     YBindingPath = "Value",
-                    Label = "temp label",
-                    Interior = new SolidColorBrush(Windows.UI.Colors.Red)
+                    Label = currency.Code,
+                    Interior = new SolidColorBrush(randomColor)
                 });
             }
             return result;

@@ -102,6 +102,9 @@
                 <syncfusion:SfChart.SecondaryAxis>
                     <syncfusion:NumericalAxis Header="Kurs" />
                 </syncfusion:SfChart.SecondaryAxis>
+                <syncfusion:SfChart.Legend>
+                    <syncfusion:ChartLegend />
+                </syncfusion:SfChart.Legend>
             </syncfusion:SfChart>
         </Grid>
         <ProgressRing

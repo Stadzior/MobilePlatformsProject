@@ -121,13 +121,9 @@ namespace MobilePlatformsProject.ViewModels
                         currency.Rates.Add(rate);
                 }
             }   
-            catch (ArgumentException e)
-            {
-                await new MessageDialog(e.Message).ShowAsync();
-            }
             catch (Exception e)
             {
-                await new MessageDialog("Error occured while getting data.").ShowAsync();
+                await new MessageDialog(e.Message).ShowAsync();
             }
 
             IsLoading = false;

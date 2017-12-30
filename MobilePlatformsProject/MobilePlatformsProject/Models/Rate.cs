@@ -8,7 +8,7 @@ namespace MobilePlatformsProject.Models
 {
     public class Rate
     {
-        public DateTimeOffset Date { get; set; }
+        public DateTime Date { get; set; }
         public double Value { get; set; }
     }
 }

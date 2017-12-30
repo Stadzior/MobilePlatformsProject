@@ -30,7 +30,7 @@ namespace MobilePlatformsProject.Converters.Json
             {
                 result.Add(new Rate
                 {
-                    Date = DateTimeOffset.Parse(token.Value<string>("effectiveDate")),
+                    Date = DateTime.Parse(token.Value<string>("effectiveDate")),
                     Value = token.Value<double>("mid")
                 });
             }
