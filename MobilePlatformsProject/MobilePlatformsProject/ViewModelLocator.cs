@@ -24,9 +24,9 @@ namespace MobilePlatformsProject
         public ViewModelLocator()
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
-            var nav = new NavigationService();
-            nav.Configure(MainPageKey, typeof(MainPage));
-            nav.Configure(CurrencyHistoryKey, typeof(CurrencyHistoryPage));
+            var navigationService = new NavigationService();
+            navigationService.Configure(MainPageKey, typeof(MainPage));
+            navigationService.Configure(CurrencyHistoryKey, typeof(CurrencyHistoryPage));
             if (ViewModelBase.IsInDesignModeStatic)
             {
                 // Create design time view services and models
@@ -38,41 +38,17 @@ namespace MobilePlatformsProject
 
             //Register your services used here
             SimpleIoc.Default.Unregister<INavigationService>();
-            SimpleIoc.Default.Register<INavigationService>(() => nav);
+            SimpleIoc.Default.Register<INavigationService>(() => navigationService);
             SimpleIoc.Default.Register<MainPageViewModel>();
             SimpleIoc.Default.Register<CurrencyHistoryViewModel>();          
         }
 
 
         public const string MainPageKey = "MainPage";
-        // <summary>
-        // Gets the FirstPage view model.
-        // </summary>
-        // <value>
-        // The FirstPage view model.
-        // </value>
-        public MainPageViewModel MainPageViewModel
-        {
-            get
-            {
-                return ServiceLocator.Current.GetInstance<MainPageViewModel>();
-            }
-        }
+        public MainPageViewModel MainPageViewModel => ServiceLocator.Current.GetInstance<MainPageViewModel>();
 
         public const string CurrencyHistoryKey = "CurrencyHistory";
-        // <summary>
-        // Gets the SecondPage view model.
-        // </summary>
-        // <value>
-        // The SecondPage view model.
-        // </value>
-        public CurrencyHistoryViewModel CurrencyHistoryViewModel
-        {
-            get
-            {
-                return ServiceLocator.Current.GetInstance<CurrencyHistoryViewModel>();
-            }
-        }
+        public CurrencyHistoryViewModel CurrencyHistoryViewModel => ServiceLocator.Current.GetInstance<CurrencyHistoryViewModel>();
 
         // <summary>
         // The cleanup.

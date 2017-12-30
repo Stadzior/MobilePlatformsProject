@@ -5,11 +5,15 @@
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
-    xmlns:local="using:MobilePlatformsProject"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     DataContext="{Binding MainPageViewModel, Source={StaticResource ResourceKey=Locator}}"
     mc:Ignorable="d">
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <i:Interaction.Behaviors>
+            <core:EventTriggerBehavior EventName="Loaded">
+                <core:InvokeCommandAction Command="{Binding RetrieveAppStateCommand}" />
+            </core:EventTriggerBehavior>
+        </i:Interaction.Behaviors>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="8*" />
@@ -53,7 +57,13 @@
                     </core:EventTriggerBehavior>
                 </i:Interaction.Behaviors>
             </AppBarButton>
-            <AppBarButton Icon="Save" Label="Zapisz" />
+            <AppBarButton Icon="Save" Label="Zapisz">
+                <i:Interaction.Behaviors>
+                    <core:EventTriggerBehavior EventName="Click">
+                        <core:InvokeCommandAction Command="{Binding SaveCommand}" />
+                    </core:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
+            </AppBarButton>
             <AppBarButton Icon="FourBars" Label="Wykres kursu">
                 <i:Interaction.Behaviors>
                     <core:EventTriggerBehavior EventName="Click">
@@ -89,7 +99,7 @@
                             Margin="30"
                             IsItemClickEnabled="True"
                             IsSwipeEnabled="true"
-                            ItemsSource="{Binding Currencies}"
+                            ItemsSource="{Binding Currencies, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             SelectionMode="Multiple"
                             Visibility="{Binding IsLoading, Converter={StaticResource ResourceKey=BooleanToVisibilityConverter}, ConverterParameter={StaticResource ResourceKey=False}}">
                             <GridView.ItemsPanel>
@@ -134,9 +144,17 @@
                 <ListView
                     Margin="0"
                     Background="WhiteSmoke"
+                    IsDoubleTapEnabled="True"
                     IsItemClickEnabled="True"
                     ItemsSource="{Binding DownloadedFilesNames}"
-                    SelectedItem="{Binding SelectedFileName}" />
+                    SelectedItem="{Binding SelectedFileName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    SelectionMode="Single">
+                    <i:Interaction.Behaviors>
+                        <core:EventTriggerBehavior EventName="DoubleTapped">
+                            <core:InvokeCommandAction Command="{Binding LoadDataFromFileCommand}" />
+                        </core:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
+                </ListView>
             </SplitView.Pane>
         </SplitView>
     </Grid>

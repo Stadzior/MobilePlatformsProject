@@ -87,6 +87,7 @@ namespace MobilePlatformsProject.ViewModels
             BackCommand = new RelayCommand(() =>
             {
                 _navigationService.GoBack();
+                Windows.Storage.ApplicationData.Current.LocalSettings.Values["lastOpenedPage"] = "MainPage";
             });
 
             ManipulationStartedCommand = new RelayCommand<ManipulationStartedRoutedEventArgs>(e => _fingerPosition = e.Position);
