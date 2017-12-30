@@ -109,7 +109,7 @@
             <syncfusion:SfChart
                 x:Name="chartCurrencyHistory"
                 Margin="15,15,15,0"
-                Series="{Binding SelectedCurrencies, Converter={StaticResource ResourceKey=CurrenciesToLineSeriesConverter}}"
+                Series="{Binding SelectedCurrencies, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ResourceKey=CurrenciesToLineSeriesConverter}}"
                 Visibility="{Binding IsLoading, Converter={StaticResource ResourceKey=BooleanToVisibilityConverter}, ConverterParameter={StaticResource ResourceKey=False}}">
                 <syncfusion:SfChart.PrimaryAxis>
                     <syncfusion:DateTimeAxis Header="Czas" LabelFormat="MM/dd/yy" />

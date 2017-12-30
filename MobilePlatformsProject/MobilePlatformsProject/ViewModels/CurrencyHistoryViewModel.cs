@@ -64,7 +64,12 @@ namespace MobilePlatformsProject.ViewModels
         public DateTimeOffset MaxDateTimeOffset => DateTimeOffset.Now;
         public DateTimeOffset MinDateTimeOffset => DateTimeOffset.Parse("2002-02-02");
 
-        public ObservableCollection<Currency> SelectedCurrencies { get; set; }
+        private ObservableCollection<Currency> _selectedCurrencies;
+        public ObservableCollection<Currency> SelectedCurrencies
+        {
+            get => _selectedCurrencies;
+            set => Set(() => SelectedCurrencies, ref _selectedCurrencies, value);
+        }
 
         public ICommand BackCommand { get; set; }
         public ICommand ManipulationStartedCommand { get; set; }
@@ -99,10 +104,12 @@ namespace MobilePlatformsProject.ViewModels
 
             DateFromChangedCommand = new RelayCommand<CalendarDatePickerDateChangedEventArgs>(e => DateFrom = e.NewDate);
             DateToChangedCommand = new RelayCommand<CalendarDatePickerDateChangedEventArgs>(e => DateTo = e.NewDate);
+
             SaveCommand = new RelayCommand<UIElement>(async element =>
             {
                 await element.Save();
             });
+
             RefreshCommand = new RelayCommand(async () =>
             {
                 await DownloadDataAsync(SelectedCurrencies, DateFrom, DateTo);                

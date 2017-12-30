@@ -196,15 +196,17 @@ namespace MobilePlatformsProject.ViewModels
                 {
                     var savePicker = new FileSavePicker();
                     savePicker.FileTypeChoices.Add("JSON", new List<string>() { ".json" });
-                    savePicker.SuggestedFileName = $"{DateTime.Now}";
+                    savePicker.SuggestedFileName = $"{DateTime.Now.ToString("MM/dd/yyyy")}";
                     var file = await savePicker.PickSaveFileAsync();
-                    using (var stream = await file.OpenStreamForWriteAsync())
+                    if (file != null)
                     {
-                        var jsonAsByteArray = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(Currencies));
-                        await stream.WriteAsync(jsonAsByteArray, 0, jsonAsByteArray.Length);
+                        using (var stream = await file.OpenStreamForWriteAsync())
+                        {
+                            var jsonAsByteArray = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(Currencies));
+                            await stream.WriteAsync(jsonAsByteArray, 0, jsonAsByteArray.Length);
+                        }
+                        DownloadedFilesNames.Add(file.Name);
                     }
-                    DownloadedFilesNames.Add(file.Name);
-                    //DownloadedFilesNames = new ObservableCollection<string>(DownloadedFilesNames.OrderBy(x => x));
                 }
             });
         }
