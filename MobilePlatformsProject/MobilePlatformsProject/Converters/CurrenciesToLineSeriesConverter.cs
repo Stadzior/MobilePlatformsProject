@@ -34,7 +34,8 @@ namespace MobilePlatformsProject.Converters
                     XBindingPath = "Date",
                     YBindingPath = "Value",
                     Label = currency.Code,
-                    Interior = new SolidColorBrush(randomColor)
+                    Interior = new SolidColorBrush(randomColor),
+                    ShowTooltip = true
                 });
             }
             return result;

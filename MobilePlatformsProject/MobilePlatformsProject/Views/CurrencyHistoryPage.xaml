@@ -55,7 +55,7 @@
             <AppBarButton Icon="Refresh" Label="Odśwież">
                 <i:Interaction.Behaviors>
                     <core:EventTriggerBehavior EventName="Click">
-                        <core:InvokeCommandAction Command="{Binding RefreshCommmand}" />
+                        <core:InvokeCommandAction Command="{Binding RefreshCommand}" />
                     </core:EventTriggerBehavior>
                 </i:Interaction.Behaviors>
             </AppBarButton>

@@ -127,10 +127,9 @@ namespace MobilePlatformsProject.ViewModels
             {
                 _navigationService.GoBack();
             });
+
             SelectedCurrenciesChangedCommand = new RelayCommand<SelectionChangedEventArgs>(e =>
             {
-                const int maximumSelectionCount = 5; 
-
                 if (SelectedCurrencies == null)
                     SelectedCurrencies = new ObservableCollection<Currency>();
 
@@ -142,10 +141,11 @@ namespace MobilePlatformsProject.ViewModels
 
                 foreach (var item in e.AddedItems.Cast<Currency>())
                 {
-                    if (!SelectedCurrencies.Contains(item) && SelectedCurrencies.Count < maximumSelectionCount)
+                    if (!SelectedCurrencies.Contains(item))
                         SelectedCurrencies.Add(item);
                 }
             });
+
             DateChangedCommand = new RelayCommand<CalendarDatePickerDateChangedEventArgs>(e => Date = e.NewDate);
             DownloadDataCommand = new RelayCommand(async () => await DownloadDataAsync(Date));
         }
@@ -179,6 +179,7 @@ namespace MobilePlatformsProject.ViewModels
 
         public void OnNavigateTo(object parameter = null)
         {
+            SelectedCurrencies = null;
             Windows.Storage.ApplicationData.Current.LocalSettings.Values["lastOpenedPage"] = "MainPage";
         }
     }

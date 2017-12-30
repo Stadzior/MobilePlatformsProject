@@ -110,7 +110,6 @@ namespace MobilePlatformsProject.ViewModels
 
         private async Task DownloadDataAsync(IEnumerable<Currency> selectedCurrencies, DateTimeOffset? dateFrom, DateTimeOffset? dateTo)
         {
-
             IsLoading = true;
 
             try
@@ -133,6 +132,8 @@ namespace MobilePlatformsProject.ViewModels
             {
                 await new MessageDialog(e.Message).ShowAsync();
             }
+
+            SelectedCurrencies = new ObservableCollection<Currency>(SelectedCurrencies);
 
             IsLoading = false;
         }
