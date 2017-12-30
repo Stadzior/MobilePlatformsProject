@@ -95,23 +95,15 @@ namespace MobilePlatformsProject.ViewModels
             else
             {
                 var deserializedCurrencies = JsonConvert.DeserializeObject<IEnumerable<Currency>>(localStorage.Values["lastSelectedCurrencies"].ToString());
-                try
-                {
-                    _navigationService.NavigateTo(
-                        "CurrencyHistory", 
-                        new
-                        {
-                            SelectedCurrencies = JsonConvert.DeserializeObject<ObservableCollection<Currency>>(localStorage.Values["lastSelectedCurrencies"].ToString()),
-                            DateFrom = DateTimeOffset.Now.AddDays(-10),
-                            DateTo = DateTimeOffset.Now
-                        }
-                    );
-                }
-                catch (Exception e)
-                {
-                    throw;
-                }
-
+                _navigationService.NavigateTo(
+                    "CurrencyHistory", 
+                    new
+                    {
+                        SelectedCurrencies = JsonConvert.DeserializeObject<ObservableCollection<Currency>>(localStorage.Values["lastSelectedCurrencies"].ToString()),
+                        DateFrom = (DateTimeOffset?)localStorage.Values["CurrencyHistoryDateFrom"],
+                        DateTo = (DateTimeOffset?)localStorage.Values["CurrencyHistoryDateTo"]
+                    }
+                );
             }
             IsLoading = false;
         }
